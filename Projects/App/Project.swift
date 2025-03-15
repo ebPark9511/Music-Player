@@ -26,7 +26,10 @@ let targets: [Target] = [
         sources: ["Sources/**"],
         resources: ["Resources/**"],
         scripts: scripts,
-        dependencies: [],
+        dependencies:
+            ModulePaths.Feature.allCases.map { TargetDependency.feature(target: $0) }
+            + ModulePaths.Domain.allCases.map { TargetDependency.domain(target: $0) }
+        ,
         settings: .settings(base: env.baseSetting)
     )
 ]
@@ -40,24 +43,6 @@ let schemes: [Scheme] = [
         archiveAction: .archiveAction(configuration: .dev),
         profileAction: .profileAction(configuration: .dev),
         analyzeAction: .analyzeAction(configuration: .dev)
-    ),
-    .scheme(
-        name: "\(env.name)-STAGE",
-        shared: true,
-        buildAction: .buildAction(targets: ["\(env.name)"]),
-        runAction: .runAction(configuration: .stage),
-        archiveAction: .archiveAction(configuration: .stage),
-        profileAction: .profileAction(configuration: .stage),
-        analyzeAction: .analyzeAction(configuration: .stage)
-    ),
-    .scheme(
-        name: "\(env.name)-PROD",
-        shared: true,
-        buildAction: .buildAction(targets: ["\(env.name)"]),
-        runAction: .runAction(configuration: .prod),
-        archiveAction: .archiveAction(configuration: .prod),
-        profileAction: .profileAction(configuration: .prod),
-        analyzeAction: .analyzeAction(configuration: .prod)
     )
 ]
 

@@ -14,10 +14,150 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4D1B67A20EB13564617513A"
+               BuildableName = "libBaseDomain.a"
+               BlueprintName = "BaseDomain"
+               ReferencedContainer = "container:Projects/Domain/BaseDomain/BaseDomain.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D3E314B387FD8B34A15E37AD"
+               BuildableName = "libBaseFeature.a"
+               BlueprintName = "BaseFeature"
+               ReferencedContainer = "container:Projects/Feature/BaseFeature/BaseFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0FEFEAAB06885A67C6A5580A"
+               BuildableName = "BaseFeatureTests.xctest"
+               BlueprintName = "BaseFeatureTests"
+               ReferencedContainer = "container:Projects/Feature/BaseFeature/BaseFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "83C9B5D1938C22907FF6E247"
+               BuildableName = "DesignSystem.framework"
+               BlueprintName = "DesignSystem"
+               ReferencedContainer = "container:Projects/UserInterface/DesignSystem/DesignSystem.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "64DAAC389D348944D37C8584"
+               BuildableName = "DesignSystemDemo.app"
+               BlueprintName = "DesignSystemDemo"
+               ReferencedContainer = "container:Projects/UserInterface/DesignSystem/DesignSystem.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E7219A64E70DCA7A233E1E7E"
+               BuildableName = "GlobalThirdPartyLibrary.framework"
+               BlueprintName = "GlobalThirdPartyLibrary"
+               ReferencedContainer = "container:Projects/Shared/GlobalThirdPartyLibrary/GlobalThirdPartyLibrary.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "49372C15B1A433334B2383B3"
                BuildableName = "Music_Player.app"
                BlueprintName = "Music-Player"
                ReferencedContainer = "container:Projects/App/Music-Player.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "200FA9DA7787FC73C93DAED0"
+               BuildableName = "libMusicDomain.a"
+               BlueprintName = "MusicDomain"
+               ReferencedContainer = "container:Projects/Domain/MusicDomain/MusicDomain.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F593A841674E3F0578197383"
+               BuildableName = "MusicDomainInterface.framework"
+               BlueprintName = "MusicDomainInterface"
+               ReferencedContainer = "container:Projects/Domain/MusicDomain/MusicDomain.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2F3BFA8C2619A51F3D852DD5"
+               BuildableName = "MusicDomainTesting.framework"
+               BlueprintName = "MusicDomainTesting"
+               ReferencedContainer = "container:Projects/Domain/MusicDomain/MusicDomain.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9A28F79429EBABEFB024D308"
+               BuildableName = "MusicDomainTests.xctest"
+               BlueprintName = "MusicDomainTests"
+               ReferencedContainer = "container:Projects/Domain/MusicDomain/MusicDomain.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,6 +168,28 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0FEFEAAB06885A67C6A5580A"
+               BuildableName = "BaseFeatureTests.xctest"
+               BlueprintName = "BaseFeatureTests"
+               ReferencedContainer = "container:Projects/Feature/BaseFeature/BaseFeature.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9A28F79429EBABEFB024D308"
+               BuildableName = "MusicDomainTests.xctest"
+               BlueprintName = "MusicDomainTests"
+               ReferencedContainer = "container:Projects/Domain/MusicDomain/MusicDomain.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -40,16 +202,15 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "49372C15B1A433334B2383B3"
-            BuildableName = "Music_Player.app"
-            BlueprintName = "Music-Player"
-            ReferencedContainer = "container:Projects/App/Music-Player.xcodeproj">
+            BlueprintIdentifier = "F4D1B67A20EB13564617513A"
+            BuildableName = "libBaseDomain.a"
+            BlueprintName = "BaseDomain"
+            ReferencedContainer = "container:Projects/Domain/BaseDomain/BaseDomain.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "PROD"
@@ -57,16 +218,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "49372C15B1A433334B2383B3"
-            BuildableName = "Music_Player.app"
-            BlueprintName = "Music-Player"
-            ReferencedContainer = "container:Projects/App/Music-Player.xcodeproj">
+            BlueprintIdentifier = "F4D1B67A20EB13564617513A"
+            BuildableName = "libBaseDomain.a"
+            BlueprintName = "BaseDomain"
+            ReferencedContainer = "container:Projects/Domain/BaseDomain/BaseDomain.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "DEV">

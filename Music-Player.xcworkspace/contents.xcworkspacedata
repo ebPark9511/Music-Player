@@ -7,5 +7,36 @@
       <FileRef
          location = "group:App/Music-Player.xcodeproj">
       </FileRef>
+      <Group
+         location = "group:Domain"
+         name = "Domain">
+         <FileRef
+            location = "group:BaseDomain/BaseDomain.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:MusicDomain/MusicDomain.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:Feature"
+         name = "Feature">
+         <FileRef
+            location = "group:BaseFeature/BaseFeature.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:Shared"
+         name = "Shared">
+         <FileRef
+            location = "group:GlobalThirdPartyLibrary/GlobalThirdPartyLibrary.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:UserInterface"
+         name = "UserInterface">
+         <FileRef
+            location = "group:DesignSystem/DesignSystem.xcodeproj">
+         </FileRef>
+      </Group>
    </Group>
 </Workspace>
