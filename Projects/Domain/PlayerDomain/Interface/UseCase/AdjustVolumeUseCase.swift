@@ -1,5 +1,5 @@
 //
-//  PlayerState.swift
+//  AdjustVolumeUseCase.swift
 //  MusicDomain
 //
 //  Created by 박은비 on 3/15/25.
@@ -8,8 +8,7 @@
 
 import Foundation
 
-public enum PlayerState {
-    case playing(song: Song)
-    case paused(song: Song)
-    case stopped
+/// 볼륨 조절
+public protocol AdjustVolumeUseCase {
+    func execute(volume: Float)
 }

@@ -16,6 +16,9 @@
          <FileRef
             location = "group:MusicDomain/MusicDomain.xcodeproj">
          </FileRef>
+         <FileRef
+            location = "group:PlayerDomain/PlayerDomain.xcodeproj">
+         </FileRef>
       </Group>
       <Group
          location = "group:Feature"

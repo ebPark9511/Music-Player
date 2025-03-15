@@ -30,6 +30,7 @@ public extension ModulePaths {
 
 public extension ModulePaths {
     enum Domain: String, MicroTargetPathConvertable {
+        case PlayerDomain
         case BaseDomain
         case MusicDomain
     }

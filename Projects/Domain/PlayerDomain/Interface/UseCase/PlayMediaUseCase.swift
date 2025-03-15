@@ -1,5 +1,5 @@
 //
-//  AdjustVolumeUseCase.swift
+//  PlaySongUseCase.swift
 //  MusicDomain
 //
 //  Created by 박은비 on 3/15/25.
@@ -8,7 +8,6 @@
 
 import Foundation
 
-/// 볼륨 조절
-public protocol AdjustVolumeUseCase {
-    func execute(volume: Float) 
+public protocol PlayMediaUseCase {
+    func execute<T: Playable>(media: T) async throws
 }

@@ -11,5 +11,5 @@ import Combine
 
 /// 현재 재생 중인 곡을 감지한다.
 public protocol ObserveCurrentSongUseCase {
-    func execute() -> AnyPublisher<Song?, Never>
+    func execute() -> AnyPublisher<Playable?, Never>
 }
