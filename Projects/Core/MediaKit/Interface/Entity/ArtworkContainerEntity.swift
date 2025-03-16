@@ -1,5 +1,5 @@
 //
-//  ImageConvertible.swift
+//  ArtworkImageConvertible.swift
 //  MusicDomain
 //
 //  Created by 박은비 on 3/16/25.
@@ -8,6 +8,10 @@
 
 import Foundation
 import UIKit
+
+public protocol ArtworkContainerEntity {
+    var artworkImage: ImageConvertible? { get }
+}
 
 public protocol ImageConvertible {
     func image(at size: CGSize) -> UIImage?

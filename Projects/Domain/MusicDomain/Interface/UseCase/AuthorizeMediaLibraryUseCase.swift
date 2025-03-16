@@ -1,5 +1,5 @@
 //
-//  MusicRepository.swift
+//  AuthorizeMediaLibraryUseCase.swift
 //  MusicDomainInterface
 //
 //  Created by 박은비 on 3/16/25.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol MusicRepository {
-    func fetchAlbums() async throws -> [Album]
+public protocol AuthorizeMediaLibraryUseCase {
+    func execute() async throws 
 }

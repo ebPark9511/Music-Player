@@ -7,19 +7,24 @@
 //
 
 import Foundation
+import UIKit
 
 public struct Album: Identifiable {
-    public let id: String
-    public let title: String
-    public let artist: String
-    public let artwork: ImageConvertible?
-    public let songs: [Song]
     
-    public init(id: String, title: String, artist: String, artwork: ImageConvertible?, songs: [Song]) {
+    public let id: String
+    public var title: String?
+    public var artist: String?
+    public var artworkImage: UIImage?
+    public var songs: [Song]
+    
+    public init(id: String, title: String? = nil, artist: String? = nil, artworkImage: UIImage? = nil, songs: [Song]) {
         self.id = id
         self.title = title
         self.artist = artist
-        self.artwork = artwork
+        self.artworkImage = artworkImage
         self.songs = songs
     }
+    
 }
+
+

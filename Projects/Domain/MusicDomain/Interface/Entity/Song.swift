@@ -9,17 +9,16 @@
 import Foundation
 
 public struct Song: Identifiable {
-    public let id: String
-    public let title: String
-    public let duration: TimeInterval
-    public let albumID: String
-    public let trackNumber: Int
+    public var id: String
+    public var title: String?
+    public var duration: TimeInterval
+    public var trackNumber: Int
     
-    public init(id: String, title: String, duration: TimeInterval, albumID: String, trackNumber: Int) {
+    public init(id: String, title: String? = nil, duration: TimeInterval, trackNumber: Int) {
         self.id = id
         self.title = title
         self.duration = duration
-        self.albumID = albumID
         self.trackNumber = trackNumber
     }
+   
 }

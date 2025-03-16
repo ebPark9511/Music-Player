@@ -8,7 +8,6 @@
 
 import Foundation
 import MusicDomainInterface
-import MediaPlayer
 
 final class FetchAlbumsUseCaseImpl: FetchAlbumsUseCase {
     private let musicRepository: MusicRepository
