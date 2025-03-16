@@ -98,6 +98,34 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AFD99B54A57CF77BB4E36CDA"
+               BuildableName = "libMediaKit.a"
+               BlueprintName = "MediaKit"
+               ReferencedContainer = "container:Projects/Core/MediaKit/MediaKit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4352084A46179B7766873F72"
+               BuildableName = "MediaKitInterface.framework"
+               BlueprintName = "MediaKitInterface"
+               ReferencedContainer = "container:Projects/Core/MediaKit/MediaKit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "49372C15B1A433334B2383B3"
                BuildableName = "Music_Player.app"
                BlueprintName = "Music-Player"

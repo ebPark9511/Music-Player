@@ -8,6 +8,13 @@
          location = "group:App/Music-Player.xcodeproj">
       </FileRef>
       <Group
+         location = "group:Core"
+         name = "Core">
+         <FileRef
+            location = "group:MediaKit/MediaKit.xcodeproj">
+         </FileRef>
+      </Group>
+      <Group
          location = "group:Domain"
          name = "Domain">
          <FileRef

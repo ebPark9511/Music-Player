@@ -29,6 +29,9 @@ let targets: [Target] = [
         dependencies:
             ModulePaths.Feature.allCases.map { TargetDependency.feature(target: $0) }
             + ModulePaths.Domain.allCases.map { TargetDependency.domain(target: $0) }
+        + [
+            .core(target: .MediaKit),
+        ]
         ,
         settings: .settings(base: env.baseSetting)
     )
