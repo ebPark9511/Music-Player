@@ -14,11 +14,11 @@ public let generateEnvironment = GenerateEnvironment(rawValue: environment) ?? .
 public extension GenerateEnvironment {
     var scripts: [TargetScript] {
         switch self {
-        case .ci, .cd:
+        case .ci, .cd, .dev:
             return []
 
-        case .dev:
-            return [.swiftLint]
+//        case .dev:
+//            return [.swiftLint]
         }
     }
 }

@@ -8,9 +8,18 @@
 
 import Foundation
 
-public struct Song {
+public struct Song: Identifiable {
     public let id: String
     public let title: String
     public let duration: TimeInterval
     public let albumID: String
+    public let trackNumber: Int
+    
+    public init(id: String, title: String, duration: TimeInterval, albumID: String, trackNumber: Int) {
+        self.id = id
+        self.title = title
+        self.duration = duration
+        self.albumID = albumID
+        self.trackNumber = trackNumber
+    }
 }

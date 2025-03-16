@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol AuthorizeMusicLibraryUseCase {
+public protocol AuthorizeMusicLibraryUseCase {
     func execute() async throws
 }

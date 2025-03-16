@@ -8,10 +8,18 @@
 
 import Foundation
 
-public struct Album {
+public struct Album: Identifiable {
     public let id: String
     public let title: String
     public let artist: String
-    public let artworkURL: URL?
+    public let artwork: ImageConvertible?
     public let songs: [Song]
+    
+    public init(id: String, title: String, artist: String, artwork: ImageConvertible?, songs: [Song]) {
+        self.id = id
+        self.title = title
+        self.artist = artist
+        self.artwork = artwork
+        self.songs = songs
+    }
 }

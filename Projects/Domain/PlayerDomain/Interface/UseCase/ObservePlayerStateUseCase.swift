@@ -11,5 +11,7 @@ import Combine
 
 /// 현재 재생 상태를 감지한다.
 public protocol ObservePlayerStateUseCase {
-    func execute() -> AnyPublisher<PlayerState, Never>
+    associatedtype Media: Playable
+    
+    func execute() -> AnyPublisher<PlayerState<Media>, Never>
 }
