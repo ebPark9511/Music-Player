@@ -45,8 +45,8 @@ extension MPMediaItemCollection: @retroactive AlbumEntity {
         _representativeItem.artwork == nil ? nil : ArtworkImageConverter(artwork: _representativeItem.artwork!)
     }
     
-    public var songs: [any MediaKitInterface.SongEntity] {
-        self.items
+    public var songs: [any SongEntity] {
+        self.items.map { $0 as SongEntity }
     }
     
     

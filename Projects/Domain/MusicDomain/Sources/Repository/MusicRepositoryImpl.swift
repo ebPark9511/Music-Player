@@ -40,7 +40,6 @@ final class MusicRepositoryImpl: MusicRepository {
     
     func fetchAlbums() async throws -> [Album] {
         try await checkAuthorization()
-        
         return await mediaLibraryDataSource.fetchAlbums().map { $0.asAlbum }
     }
     

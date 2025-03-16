@@ -20,12 +20,58 @@ struct Albums {
     
     enum Action: Sendable {
         case onAppear
+        case fetch
+        case fetchComplete([Album])
+        case fetchFailed(Error)
+    }
+    
+    private let authorizeMediaLibraryUseCase: AuthorizeMediaLibraryUseCase
+    private let fetchAlbumsUseCase: FetchAlbumsUseCase
+    
+    init(
+        authorizeMediaLibraryUseCase: AuthorizeMediaLibraryUseCase,
+        fetchAlbumsUseCase: FetchAlbumsUseCase
+    ) {
+        self.authorizeMediaLibraryUseCase = authorizeMediaLibraryUseCase
+        self.fetchAlbumsUseCase = fetchAlbumsUseCase
     }
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                return .run { send in
+                    do {
+                        try await authorizeMediaLibraryUseCase.execute()
+                        await send(.fetch)
+                    } catch {
+                        await send(.fetchFailed(error))
+                    }
+                }
+                
+            case .fetch:
+                return .run { send in
+                    do {
+                        let albums = try await fetchAlbumsUseCase.execute()
+                        await send(.fetchComplete(albums))
+                    } catch {
+                        await send(.fetchFailed(error))
+                    }
+                }
+                
+            case let .fetchComplete(albums):
+                state.albums = IdentifiedArrayOf(uniqueElements: albums.map { album in
+                    AlbumItem.State(
+                        id: album.id,
+                        image: album.artworkImage.map { Image(uiImage: $0) } ?? Image(systemName: "music.note"),
+                        title: album.title ?? "-",
+                        artist: album.artist ?? "-"
+                    )
+                })
+                return .none
+                
+            case .fetchFailed(let error):
+                print("Failed to fetch albums:", error)
                 return .none
             }
         }
@@ -38,35 +84,34 @@ struct AlbumsView: View {
     
     private let spacing: CGFloat = 16
     private let columns = 2
-    
+     
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithPerceptionTracking {
             NavigationStack {
                 ScrollView {
                     let gridItems = Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns)
                     
-                    LazyVGrid(
-                        columns: gridItems,
-                        spacing: spacing
-                    ) {
-                        ForEach(viewStore.albums) { album in
-                            GeometryReader { geometry in
+                    WithPerceptionTracking {
+                        LazyVGrid(
+                            columns: gridItems,
+                            spacing: spacing
+                        ) {
+                            ForEach(store.albums) { album in
                                 AlbumItemView(
                                     store: Store(initialState: album) {
                                         AlbumItem()
                                     }
                                 )
                             }
-                            .aspectRatio(1, contentMode: .fit)
                         }
+                        .padding(spacing)
                     }
-                    .padding(spacing)
                 }
                 .navigationTitle("라이브러리")
             }
-            .onAppear {
-                viewStore.send(.onAppear)
-            }
+        }
+        .onAppear {
+            store.send(.onAppear)
         }
     }
 }
@@ -74,38 +119,25 @@ struct AlbumsView: View {
 #Preview {
     AlbumsView(
         store: Store(
-            initialState: Albums.State(
-                albums: IdentifiedArrayOf(
-                    uniqueElements: [
-                        AlbumItem.State(
-                            id: "1",
-                            image: Image(systemName: "music.note"),
-                            title: "Random Access Memories",
-                            artist: "Daft Punk"
-                        ),
-                        AlbumItem.State(
-                            id: "2",
-                            image: Image(systemName: "music.note.list"),
-                            title: "Abbey Road",
-                            artist: "The Beatles"
-                        ),
-                        AlbumItem.State(
-                            id: "3",
-                            image: Image(systemName: "music.quarternote.3"),
-                            title: "The Dark Side of the Moon",
-                            artist: "Pink Floyd"
-                        ),
-                        AlbumItem.State(
-                            id: "4",
-                            image: Image(systemName: "music.note.tv"),
-                            title: "Thriller",
-                            artist: "Michael Jackson"
-                        )
-                    ]
-                )
-            )
+            initialState: Albums.State()
         ) {
-            Albums()
+            Albums(
+                authorizeMediaLibraryUseCase: PreviewAuthorizeMediaLibraryUseCase(),
+                fetchAlbumsUseCase: PreviewFetchAlbumsUseCase()
+            )
         }
     )
+}
+
+private struct PreviewAuthorizeMediaLibraryUseCase: AuthorizeMediaLibraryUseCase {
+    func execute() async throws {}
+}
+
+private struct PreviewFetchAlbumsUseCase: FetchAlbumsUseCase {
+    func execute() async throws -> [Album] {
+        return [
+            Album(id: "1", title: "Random Access Memories", artist: "Daft Punk", artworkImage: nil, songs: []),
+            Album(id: "2", title: "Abbey Road", artist: "The Beatles", artworkImage: nil, songs: [])
+        ]
+    }
 }

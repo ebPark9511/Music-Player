@@ -1,10 +1,23 @@
 import UIKit
+import Swinject
+import MediaKit
+import MusicDomain
+import AlbumsFeature
 
-@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    static let container = Container()
+    var assembler: Assembler!
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        assembler = Assembler(
+            [
+                MediaKitAssembly(),
+                MusicDomainAssembly(),
+                AlbumsFeatureAssembly()
+            ],
+            container: AppDelegate.container
+        )
         return true
     }
 

@@ -19,8 +19,11 @@ final class AuthorizeMediaLibraryUseCaseImpl: AuthorizeMediaLibraryUseCase {
     }
     
     func execute() async throws {
-        guard authorizeMediaLibraryService.getAuthorizationStatus() == .notDetermined else {
+        switch authorizeMediaLibraryService.getAuthorizationStatus() {
+        case .denied, .restricted:
             throw MusicDomainError.unauthorized
+        default:
+            break
         }
         
         switch await authorizeMediaLibraryService.requestAuthorization() {
@@ -29,6 +32,6 @@ final class AuthorizeMediaLibraryUseCaseImpl: AuthorizeMediaLibraryUseCase {
         default:
             throw MusicDomainError.unauthorized
         }
-        
     }
+    
 }

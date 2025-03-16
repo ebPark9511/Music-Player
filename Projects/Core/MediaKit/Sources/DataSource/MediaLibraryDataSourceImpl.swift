@@ -12,8 +12,11 @@ import MediaPlayer
 
 final class MediaLibraryDataSourceImpl: MediaLibraryDataSource {
     func fetchAlbums() async -> [any AlbumEntity] {
-        MPMediaQuery.albums().collections ?? []
-    }    
+        
+        return MPMediaQuery.albums().collections?.map { collections in
+            collections as AlbumEntity
+        } ?? []
+    }
 }
 
 

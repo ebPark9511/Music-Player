@@ -8,11 +8,11 @@ let project = Project.module(
         .interface(module: .feature(.AlbumsFeature)),
         .implements(module: .feature(.AlbumsFeature), dependencies: [
             .feature(target: .AlbumsFeature, type: .interface),
-            .feature(target: .BaseFeature, type: .sources),
+            .feature(target: .BaseFeature),
+            .domain(target: .MusicDomain, type: .interface)
         ]),
         .testing(module: .feature(.AlbumsFeature), dependencies: [
-            .feature(target: .AlbumsFeature, type: .interface),
-            .domain(target: .MusicDomain, type: .interface)
+            .feature(target: .AlbumsFeature, type: .interface)
         ]),
         .tests(module: .feature(.AlbumsFeature), dependencies: [
             .feature(target: .AlbumsFeature)

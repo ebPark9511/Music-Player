@@ -33,8 +33,6 @@ struct AlbumItemView: View {
                 viewStore.image
                     .resizable()
                     .scaledToFit()
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .padding(10)
                     .frame(maxWidth: .infinity)
                 
                 VStack(alignment: .leading, spacing: 4) {
@@ -49,13 +47,12 @@ struct AlbumItemView: View {
                         .lineLimit(1)
                         .truncationMode(.tail)
                 }
-                .padding(.horizontal, 10)
-                .padding(.bottom, 10)
+                .padding(10)
             }
             .frame(maxWidth: .infinity)
-            .background(.white)
+            .background(Color(UIColor.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(color: Color.black.opacity(0.5), radius: 4, x: 0, y: 2)
+            .shadow(color: Color.primary.opacity(0.5), radius: 4, x: 0, y: 0)
         }
     }
     
@@ -75,4 +72,5 @@ struct AlbumItemView: View {
         }
     )
     .frame(width: 200, height: 200)
+    .preferredColorScheme(.dark)
 }
