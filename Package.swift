@@ -19,6 +19,7 @@ let packageSetting = PackageSettings(
 let package = Package(
     name: "Package",
     dependencies: [
+        .package(url: "https://github.com/pointfreeco/swift-composable-architecture", exact: "1.8.2"),
         .package(url: "https://github.com/Swinject/Swinject.git", from: "2.9.1"),
     ]
 )

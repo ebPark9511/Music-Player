@@ -31,6 +31,9 @@
          location = "group:Feature"
          name = "Feature">
          <FileRef
+            location = "group:AlbumsFeature/AlbumsFeature.xcodeproj">
+         </FileRef>
+         <FileRef
             location = "group:BaseFeature/BaseFeature.xcodeproj">
          </FileRef>
       </Group>
@@ -48,5 +51,51 @@
             location = "group:DesignSystem/DesignSystem.xcodeproj">
          </FileRef>
       </Group>
+   </Group>
+   <Group
+      location = "container:"
+      name = "Dependencies">
+      <FileRef
+         location = "group:.build/tuist-derived/Swinject/Swinject.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/combine-schedulers/combine-schedulers.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-case-paths/swift-case-paths.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-clocks/swift-clocks.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-collections/swift-collections.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-composable-architecture/swift-composable-architecture.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-concurrency-extras/swift-concurrency-extras.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-custom-dump/swift-custom-dump.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-dependencies/swift-dependencies.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-identified-collections/swift-identified-collections.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-perception/swift-perception.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-syntax/swift-syntax.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swiftui-navigation/swiftui-navigation.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/xctest-dynamic-overlay/xctest-dynamic-overlay.xcodeproj">
+      </FileRef>
    </Group>
 </Workspace>
