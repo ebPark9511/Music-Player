@@ -9,7 +9,8 @@ let project = Project.module(
             .domain(target: .PlayerDomain, type: .interface)
         ]),
         .implements(module: .domain(.MusicDomain), dependencies: [
-            .domain(target: .MusicDomain, type: .interface)
+            .domain(target: .MusicDomain, type: .interface),
+            .domain(target: .BaseDomain)
         ]),
         .testing(module: .domain(.MusicDomain), dependencies: [
             .domain(target: .MusicDomain, type: .interface)

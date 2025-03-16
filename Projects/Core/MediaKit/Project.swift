@@ -7,7 +7,8 @@ let project = Project.module(
     targets: [
         .interface(module: .core(.MediaKit)),
         .implements(module: .core(.MediaKit), dependencies: [
-            .core(target: .MediaKit, type: .interface)
+            .core(target: .MediaKit, type: .interface),
+            .domain(target: .BaseDomain)
         ])
     ]
 )

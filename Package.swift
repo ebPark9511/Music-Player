@@ -18,5 +18,8 @@ let packageSetting = PackageSettings(
 
 let package = Package(
     name: "Package",
-    dependencies: []
+    dependencies: [
+        .package(url: "https://github.com/Swinject/Swinject.git", from: "2.9.1"),
+    ]
 )
+        

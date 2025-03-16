@@ -10,7 +10,8 @@ let project = Project.module(
             .domain(target: .PlayerDomain, type: .interface)
         ]),
         .testing(module: .domain(.PlayerDomain), dependencies: [
-            .domain(target: .PlayerDomain, type: .interface)
+            .domain(target: .PlayerDomain, type: .interface),
+            .domain(target: .BaseDomain)
         ]),
         .tests(module: .domain(.PlayerDomain), dependencies: [
             .domain(target: .PlayerDomain)
