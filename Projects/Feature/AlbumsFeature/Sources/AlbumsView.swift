@@ -20,7 +20,7 @@ struct Albums {
     
     enum Action: Sendable {
         case onAppear
-        case fetch
+        case fetchAlbums
         case fetchComplete([Album])
         case fetchFailed(Error)
     }
@@ -43,13 +43,13 @@ struct Albums {
                 return .run { send in
                     do {
                         try await authorizeMediaLibraryUseCase.execute()
-                        await send(.fetch)
+                        await send(.fetchAlbums)
                     } catch {
                         await send(.fetchFailed(error))
                     }
                 }
                 
-            case .fetch:
+            case .fetchAlbums:
                 return .run { send in
                     do {
                         let albums = try await fetchAlbumsUseCase.execute()
@@ -78,41 +78,68 @@ struct Albums {
     }
 }
 
+// 화면 이동을 위한 Enum 정의
+enum Screen: Hashable {
+    case detail(String)
+}
+
+
 struct AlbumsView: View {
     
     let store: StoreOf<Albums>
     
+    @State private var path = NavigationPath()
     private let spacing: CGFloat = 16
     private let columns = 2
-     
+    
     var body: some View {
-        WithPerceptionTracking {
-            NavigationStack {
-                ScrollView {
-                    let gridItems = Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns)
-                    
-                    WithPerceptionTracking {
-                        LazyVGrid(
-                            columns: gridItems,
-                            spacing: spacing
-                        ) {
-                            ForEach(store.albums) { album in
-                                AlbumItemView(
-                                    store: Store(initialState: album) {
-                                        AlbumItem()
-                                    }
-                                )
+        NavigationStack(path: $path) {
+            ScrollView {
+                let gridItems = Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns)
+                
+                LazyVGrid(
+                    columns: gridItems,
+                    spacing: spacing
+                ) {
+                    ForEach(store.albums) { album in
+                        AlbumItemView(
+                            store: Store(initialState: album) {
+                                AlbumItem()
                             }
+                        )
+                        .onTapGesture {
+                            print("test")
+                            path.append(Screen.detail("Hello, SwiftUI!"))
                         }
-                        .padding(spacing)
                     }
                 }
-                .navigationTitle("라이브러리")
+                .navigationDestination(for: Screen.self) { screen in
+                    switch screen {
+                    case .detail(let message):
+                        AlbumDetailView(message: message)
+                    }
+                }
+                .padding(spacing)
             }
+            .navigationTitle("라이브러리")
         }
         .onAppear {
             store.send(.onAppear)
         }
+    }
+}
+
+
+private struct PreviewAuthorizeMediaLibraryUseCase: AuthorizeMediaLibraryUseCase {
+    func execute() async throws {}
+}
+
+private struct PreviewFetchAlbumsUseCase: FetchAlbumsUseCase {
+    func execute() async throws -> [Album] {
+        return [
+            Album(id: "1", title: "Random Access Memories", artist: "Daft Punk", artworkImage: nil, songs: []),
+            Album(id: "2", title: "Abbey Road", artist: "The Beatles", artworkImage: nil, songs: [])
+        ]
     }
 }
 
@@ -127,17 +154,4 @@ struct AlbumsView: View {
             )
         }
     )
-}
-
-private struct PreviewAuthorizeMediaLibraryUseCase: AuthorizeMediaLibraryUseCase {
-    func execute() async throws {}
-}
-
-private struct PreviewFetchAlbumsUseCase: FetchAlbumsUseCase {
-    func execute() async throws -> [Album] {
-        return [
-            Album(id: "1", title: "Random Access Memories", artist: "Daft Punk", artworkImage: nil, songs: []),
-            Album(id: "2", title: "Abbey Road", artist: "The Beatles", artworkImage: nil, songs: [])
-        ]
-    }
 }

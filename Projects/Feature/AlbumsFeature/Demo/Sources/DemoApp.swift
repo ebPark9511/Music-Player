@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import AlbumsFeature
 
 @main
 struct DemoApp: App {

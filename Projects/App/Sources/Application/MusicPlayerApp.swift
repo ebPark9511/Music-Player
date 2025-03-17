@@ -7,10 +7,8 @@
 //
 
 import SwiftUI
-
 import AlbumsFeature
 import MusicDomainInterface
-
 
 @main
 struct MusicPlayerApp: App {
@@ -23,4 +21,5 @@ struct MusicPlayerApp: App {
         }
     }
 }
+
 

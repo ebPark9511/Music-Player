@@ -8,7 +8,6 @@
 
 import Foundation
 
-/// 앨범 목록을 가져온다.
 public protocol FetchAlbumsUseCase {
     func execute() async throws -> [Album]
 }

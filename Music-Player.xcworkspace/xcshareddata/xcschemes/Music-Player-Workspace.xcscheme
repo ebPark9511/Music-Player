@@ -14,6 +14,76 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DC77BAB6111F13B1BAB2A74A"
+               BuildableName = "libAlbumDetailFeature.a"
+               BlueprintName = "AlbumDetailFeature"
+               ReferencedContainer = "container:Projects/Feature/AlbumDetailFeature/AlbumDetailFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "08FDB962142B34FD0E72C9FD"
+               BuildableName = "AlbumDetailFeatureDemo.app"
+               BlueprintName = "AlbumDetailFeatureDemo"
+               ReferencedContainer = "container:Projects/Feature/AlbumDetailFeature/AlbumDetailFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1223070C319FC4D8236EB522"
+               BuildableName = "AlbumDetailFeatureInterface.framework"
+               BlueprintName = "AlbumDetailFeatureInterface"
+               ReferencedContainer = "container:Projects/Feature/AlbumDetailFeature/AlbumDetailFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EF6715F46EFCDB84D32A5A9E"
+               BuildableName = "AlbumDetailFeatureTesting.framework"
+               BlueprintName = "AlbumDetailFeatureTesting"
+               ReferencedContainer = "container:Projects/Feature/AlbumDetailFeature/AlbumDetailFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7B2333D49E28B4208C0AC2F"
+               BuildableName = "AlbumDetailFeatureTests.xctest"
+               BlueprintName = "AlbumDetailFeatureTests"
+               ReferencedContainer = "container:Projects/Feature/AlbumDetailFeature/AlbumDetailFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "BAC8F20D2CAD9F0A2257AFFE"
                BuildableName = "libAlbumsFeature.a"
                BlueprintName = "AlbumsFeature"
@@ -803,6 +873,17 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B7B2333D49E28B4208C0AC2F"
+               BuildableName = "AlbumDetailFeatureTests.xctest"
+               BlueprintName = "AlbumDetailFeatureTests"
+               ReferencedContainer = "container:Projects/Feature/AlbumDetailFeature/AlbumDetailFeature.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "DF4769619460A7F2401E369A"
                BuildableName = "AlbumsFeatureTests.xctest"
                BlueprintName = "AlbumsFeatureTests"
@@ -857,10 +938,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BAC8F20D2CAD9F0A2257AFFE"
-            BuildableName = "libAlbumsFeature.a"
-            BlueprintName = "AlbumsFeature"
-            ReferencedContainer = "container:Projects/Feature/AlbumsFeature/AlbumsFeature.xcodeproj">
+            BlueprintIdentifier = "DC77BAB6111F13B1BAB2A74A"
+            BuildableName = "libAlbumDetailFeature.a"
+            BlueprintName = "AlbumDetailFeature"
+            ReferencedContainer = "container:Projects/Feature/AlbumDetailFeature/AlbumDetailFeature.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -873,10 +954,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "BAC8F20D2CAD9F0A2257AFFE"
-            BuildableName = "libAlbumsFeature.a"
-            BlueprintName = "AlbumsFeature"
-            ReferencedContainer = "container:Projects/Feature/AlbumsFeature/AlbumsFeature.xcodeproj">
+            BlueprintIdentifier = "DC77BAB6111F13B1BAB2A74A"
+            BuildableName = "libAlbumDetailFeature.a"
+            BlueprintName = "AlbumDetailFeature"
+            ReferencedContainer = "container:Projects/Feature/AlbumDetailFeature/AlbumDetailFeature.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -13,6 +13,6 @@ public let env = ProjectEnvironment(
     name: "Music-Player",
     organizationName: "ebpark",
     destinations: [.iPhone, .iPad],
-    deploymentTargets: .iOS("16.0"),
+    deploymentTargets: .iOS("18.0"),
     baseSetting: [:]
 )

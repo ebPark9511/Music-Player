@@ -14,7 +14,6 @@ import Swinject
 public final class MusicDomainAssembly: Assembly {
     public init() {}
     public func assemble(container: Container) {
-        
         container.register(MusicRepository.self) { (resolver: Resolver) in
             MusicRepositoryImpl(
                 authorizeMediaLibraryService: resolver.resolve(AuthorizeMediaLibraryService.self)!,
@@ -25,11 +24,12 @@ public final class MusicDomainAssembly: Assembly {
         container.register(AuthorizeMediaLibraryUseCase.self) { (resolver: Resolver) in
             AuthorizeMediaLibraryUseCaseImpl(authorizeMediaLibraryService: resolver.resolve(AuthorizeMediaLibraryService.self)!)
         }
-        
         container.register(FetchAlbumsUseCase.self) { (resolver: Resolver) in
             FetchAlbumsUseCaseImpl(musicRepository: resolver.resolve(MusicRepository.self)!)
         }
-        
+        container.register(FetchAlbumUseCase.self) { (resolver: Resolver, album: Album) in
+            FetchAlbumUseCaseImpl(album: album)
+        }
         
     }
 }
