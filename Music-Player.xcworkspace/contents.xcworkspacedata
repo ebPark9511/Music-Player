@@ -31,6 +31,9 @@
          location = "group:Feature"
          name = "Feature">
          <FileRef
+            location = "group:AlbumDetailFeature/AlbumDetailFeature.xcodeproj">
+         </FileRef>
+         <FileRef
             location = "group:AlbumsFeature/AlbumsFeature.xcodeproj">
          </FileRef>
          <FileRef

@@ -3,6 +3,7 @@ import Swinject
 import MediaKit
 import MusicDomain
 import AlbumsFeature
+import AlbumDetailFeature
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -14,7 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             [
                 MediaKitAssembly(),
                 MusicDomainAssembly(),
-                AlbumsFeatureAssembly()
+                AlbumsFeatureAssembly(),
+                AlbumDetailAssembly()
             ],
             container: AppDelegate.container
         )

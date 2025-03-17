@@ -7,8 +7,8 @@
 //
 
 import SwiftUI
-import AlbumsFeature
-import MusicDomainInterface
+//import AlbumsFeature
+import AlbumDetailFeature
 
 @main
 struct MusicPlayerApp: App {
@@ -17,7 +17,7 @@ struct MusicPlayerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppDelegate.container.resolve(AlbumsRootView.self)!
+            AppDelegate.container.resolve(AlbumDetailRootView.self)!
         }
     }
 }
