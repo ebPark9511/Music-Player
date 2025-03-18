@@ -1,12 +1,14 @@
-//
-//  AlbumDetailRootViewable.swift
-//  AlbumDetailFeature
-//
-//  Created by 박은비 on 3/17/25.
-//  Copyright © 2025 ebpark. All rights reserved.
-//
-
-import Foundation
 import SwiftUI
+import MusicDomainInterface
 
-public protocol AlbumDetailRootViewable: View { }
+public protocol AlbumDetailBuilder {
+    func build(album: Album) -> any View
+}
+
+public struct AlbumDetailBuilderImpl: AlbumDetailBuilder {
+    public init() {}
+    
+    public func build(album: Album) -> any View {
+        AlbumDetailCoordinatorView(initialScreen: .detail(album))
+    }
+} 

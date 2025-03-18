@@ -23,9 +23,8 @@ struct AlbumDetail {
                 uniqueElements: album.songs.enumerated().map { index, song in
                     SongItem.State(
                         id: song.id,
-                        trackNumber: String(index + 1),
-                        title: song.title ?? "Unknown",
-                        duration: song.duration
+                        trackNumber: String(song.trackNumber),
+                        title: song.title ?? "-"
                     )
                 }
             )
@@ -137,7 +136,6 @@ struct SongItem {
         let id: String
         let trackNumber: String
         let title: String
-        let duration: TimeInterval?
     }
     
     enum Action {
@@ -179,27 +177,25 @@ struct SongItemView: View {
 }
 
 #Preview {
-    NavigationStack {
-        AlbumDetailView(
-            store: Store(
-                initialState: AlbumDetail.State(
-                    album: Album(
-                        id: "1",
-                        title: "Brother",
-                        artist: "Daniel Duke",
-                        artworkImage: nil,
-                        songs: [
-                            Song(id: "1", title: "Build the Levees", duration: 180, trackNumber: 1),
-                            Song(id: "2", title: "Borderline", duration: 210, trackNumber: 2),
-                            Song(id: "3", title: "A Couple Things", duration: 195, trackNumber: 3),
-                            Song(id: "10", title: "Aster", duration: 225, trackNumber: 10),
-                            Song(id: "5", title: "Brother", duration: 200, trackNumber: 5)
-                        ]
-                    )
+    AlbumDetailView(
+        store: Store(
+            initialState: AlbumDetail.State(
+                album: Album(
+                    id: "1",
+                    title: "Brother",
+                    artist: "Daniel Duke",
+                    artworkImage: nil,
+                    songs: [
+                        Song(id: "1", title: "Build the Levees", duration: 180, trackNumber: 1),
+                        Song(id: "2", title: "Borderline", duration: 210, trackNumber: 2),
+                        Song(id: "3", title: "A Couple Things", duration: 195, trackNumber: 3),
+                        Song(id: "10", title: "Aster", duration: 225, trackNumber: 10),
+                        Song(id: "5", title: "Brother", duration: 200, trackNumber: 5)
+                    ]
                 )
-            ) {
-                AlbumDetail()
-            }
-        )
-    }
+            )
+        ) {
+            AlbumDetail()
+        }
+    )
 }

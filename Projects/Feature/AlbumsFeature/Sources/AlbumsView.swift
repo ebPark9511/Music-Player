@@ -9,13 +9,15 @@
 import SwiftUI
 import ComposableArchitecture
 import MusicDomainInterface
+import AlbumsFeatureInterface
 
 @Reducer
 struct Albums {
     
     @ObservableState
     struct State: Equatable {
-        var albums: IdentifiedArrayOf<AlbumItem.State> = []
+        var albums: [Album] = []
+        var albumItems: IdentifiedArrayOf<AlbumItem.State> = []
     }
     
     enum Action: Sendable {
@@ -60,7 +62,8 @@ struct Albums {
                 }
                 
             case let .fetchComplete(albums):
-                state.albums = IdentifiedArrayOf(uniqueElements: albums.map { album in
+                state.albums = albums
+                state.albumItems = IdentifiedArrayOf(uniqueElements: albums.map { album in
                     AlbumItem.State(
                         id: album.id,
                         image: album.artworkImage.map { Image(uiImage: $0) } ?? Image(systemName: "music.note"),
@@ -76,21 +79,29 @@ struct Albums {
             }
         }
     }
+    
+    
 }
-
-// 화면 이동을 위한 Enum 정의
-enum Screen: Hashable {
-    case detail(String)
-}
-
 
 struct AlbumsView: View {
     
-    let store: StoreOf<Albums>
+    private let store: StoreOf<Albums>
     
-    @State private var path = NavigationPath()
+    @State private var path: NavigationPath
+    private let coordinator: AlbumsCoordinating
+    
     private let spacing: CGFloat = 16
     private let columns = 2
+    
+    init(
+        store: StoreOf<Albums>,
+        path: NavigationPath = .init(),
+        coordinator: AlbumsCoordinating
+    ) {
+        self.store = store
+        self.path = path
+        self.coordinator = coordinator
+    }
     
     var body: some View {
         NavigationStack(path: $path) {
@@ -101,22 +112,23 @@ struct AlbumsView: View {
                     columns: gridItems,
                     spacing: spacing
                 ) {
-                    ForEach(store.albums) { album in
+                    ForEach(store.albumItems) { albumItem in
                         AlbumItemView(
-                            store: Store(initialState: album) {
+                            store: Store(initialState: albumItem) {
                                 AlbumItem()
                             }
                         )
                         .onTapGesture {
-                            print("test")
-                            path.append(Screen.detail("Hello, SwiftUI!"))
+                            if let album = store.state.albums.first(where: { $0.id == albumItem.id }) {
+                                self.path.append(AlbumsDestination.albumDetail(album))
+                            }
                         }
                     }
                 }
-                .navigationDestination(for: Screen.self) { screen in
-                    switch screen {
-                    case .detail(let message):
-                        AlbumDetailView(message: message)
+                .navigationDestination(for: AlbumsDestination.self) { destination in
+                    switch destination {
+                    case .albumDetail(let album):
+                        AnyView(coordinator.coordinateToAlbumDetail(with: album))
                     }
                 }
                 .padding(spacing)
@@ -129,7 +141,7 @@ struct AlbumsView: View {
     }
 }
 
-
+// MARK: - Preview
 private struct PreviewAuthorizeMediaLibraryUseCase: AuthorizeMediaLibraryUseCase {
     func execute() async throws {}
 }
@@ -143,6 +155,13 @@ private struct PreviewFetchAlbumsUseCase: FetchAlbumsUseCase {
     }
 }
 
+private struct PreviewAlbumsCoordinator: AlbumsCoordinating {
+    func coordinateToAlbumDetail(with album: Album) -> any View {
+        Text("buildAlbumDetail")
+    }
+}
+
+
 #Preview {
     AlbumsView(
         store: Store(
@@ -152,6 +171,7 @@ private struct PreviewFetchAlbumsUseCase: FetchAlbumsUseCase {
                 authorizeMediaLibraryUseCase: PreviewAuthorizeMediaLibraryUseCase(),
                 fetchAlbumsUseCase: PreviewFetchAlbumsUseCase()
             )
-        }
+        },
+        coordinator: PreviewAlbumsCoordinator()
     )
 }

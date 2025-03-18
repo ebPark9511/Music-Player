@@ -62,6 +62,7 @@ private extension SongEntity {
     var asSong: Song {
         Song(
             id: id,
+            title: title,
             duration: duration,
             trackNumber: trackNumber
         )

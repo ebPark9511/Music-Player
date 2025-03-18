@@ -27,9 +27,6 @@ public final class MusicDomainAssembly: Assembly {
         container.register(FetchAlbumsUseCase.self) { (resolver: Resolver) in
             FetchAlbumsUseCaseImpl(musicRepository: resolver.resolve(MusicRepository.self)!)
         }
-        container.register(FetchAlbumUseCase.self) { (resolver: Resolver, album: Album) in
-            FetchAlbumUseCaseImpl(album: album)
-        }
         
     }
 }
