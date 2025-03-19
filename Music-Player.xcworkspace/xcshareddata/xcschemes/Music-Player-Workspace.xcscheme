@@ -658,6 +658,62 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "76046387156B4F90F47B4ED8"
+               BuildableName = "libPlayerFeature.a"
+               BlueprintName = "PlayerFeature"
+               ReferencedContainer = "container:Projects/Feature/PlayerFeature/PlayerFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "42D35AAB5BBDEF3CBE8FDA4E"
+               BuildableName = "PlayerFeatureInterface.framework"
+               BlueprintName = "PlayerFeatureInterface"
+               ReferencedContainer = "container:Projects/Feature/PlayerFeature/PlayerFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0EBDBDC43A21880F12EBCE9E"
+               BuildableName = "libRootFeature.a"
+               BlueprintName = "RootFeature"
+               ReferencedContainer = "container:Projects/Feature/RootFeature/RootFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "00E9CA43B16B199C0DB61155"
+               BuildableName = "RootFeatureInterface.framework"
+               BlueprintName = "RootFeatureInterface"
+               ReferencedContainer = "container:Projects/Feature/RootFeature/RootFeature.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "114FBD9E0C8A1E594FBAE26F"
                BuildableName = "SwiftBasicFormat.framework"
                BlueprintName = "SwiftBasicFormat"

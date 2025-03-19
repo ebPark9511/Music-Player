@@ -39,6 +39,12 @@
          <FileRef
             location = "group:BaseFeature/BaseFeature.xcodeproj">
          </FileRef>
+         <FileRef
+            location = "group:PlayerFeature/PlayerFeature.xcodeproj">
+         </FileRef>
+         <FileRef
+            location = "group:RootFeature/RootFeature.xcodeproj">
+         </FileRef>
       </Group>
       <Group
          location = "group:Shared"

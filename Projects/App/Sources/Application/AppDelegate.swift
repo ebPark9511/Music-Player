@@ -4,6 +4,8 @@ import MediaKit
 import MusicDomain
 import AlbumsFeature
 import AlbumDetailFeature
+import RootFeature
+import PlayerFeature
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             [
                 MediaKitAssembly(),
                 MusicDomainAssembly(),
+                RootFeatureAssembly(),
+                PlayerFeatureAssembly(),
                 AlbumsFeatureAssembly(),
                 AlbumDetailAssembly()
             ],

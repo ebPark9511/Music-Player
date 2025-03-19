@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import AlbumsFeatureInterface
+import RootFeatureInterface
 
 @main
 struct MusicPlayerApp: App {
@@ -16,7 +16,7 @@ struct MusicPlayerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppDelegate.container.resolve(AlbumsBuilder.self)!
+            AppDelegate.container.resolve(RootFeatureBuilder.self)!
         }
     }
 }
