@@ -8,9 +8,9 @@ let project = Project.module(
         .interface(module: .feature(.AlbumDetailFeature)),
         .implements(module: .feature(.AlbumDetailFeature), dependencies: [
             .feature(target: .AlbumDetailFeature, type: .interface),
-            .feature(target: .BaseFeature),
             .domain(target: .MusicDomain, type: .interface),
             .domain(target: .PlayerDomain, type: .interface),
+            .feature(target: .BaseFeature),
         ]),
         .testing(module: .feature(.AlbumDetailFeature), dependencies: [
             .feature(target: .AlbumDetailFeature, type: .interface)

@@ -8,6 +8,8 @@ let project = Project.module(
         .interface(module: .feature(.PlayerFeature)),
         .implements(module: .feature(.PlayerFeature), dependencies: [
             .feature(target: .PlayerFeature, type: .interface),
+            .domain(target: .PlayerDomain, type: .interface),
+            .domain(target: .MusicDomain, type: .interface),
             .feature(target: .BaseFeature),
         ])
     ]
