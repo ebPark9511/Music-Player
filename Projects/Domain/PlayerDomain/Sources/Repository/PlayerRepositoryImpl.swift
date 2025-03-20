@@ -83,7 +83,7 @@ final class PlayerRepositoryImpl: PlayerRepository {
     func resume() {
         _mediaService.resume()
         if let playing = _playing.value {
-            startTimer(duration: playing.duration ?? 0)
+            startTimer(duration: playing.duration)
         }
     }
     

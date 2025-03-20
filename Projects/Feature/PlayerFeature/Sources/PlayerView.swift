@@ -7,12 +7,112 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
+import MusicDomainInterface
+import PlayerDomainInterface
+import Combine
+
+@Reducer
+struct Player {
+    @ObservableState
+    struct State: Equatable {
+        var isPlaying: Bool = false
+        var currentSong: Song?
+        var currentTime: TimeInterval = 0
+        
+        init() { }
+    }
+    
+    enum Action {
+        case onAppear
+        case playButtonTapped
+        case pauseButtonTapped
+        case currentSongUpdated(Song)
+        case currentPlaybackStateUpdated(PlayerState)
+        case playbackTimeUpdated(TimeInterval)
+    }
+    
+    private let resumePlaybackUseCase: ResumePlaybackUseCase
+    private let pausePlaybackUseCase: PausePlaybackUseCase
+    private let observeCurrentSongUseCase: ObserveCurrentSongUseCase
+    private let observePlaybackStateUseCase: ObservePlaybackStateUseCase
+    private let observePlaybackTimeUseCase: ObservePlaybackTimeUseCase
+
+    init(
+        resumePlaybackUseCase: ResumePlaybackUseCase,
+        pausePlaybackUseCase: PausePlaybackUseCase,
+        observeCurrentSongUseCase: ObserveCurrentSongUseCase,
+        observePlaybackStateUseCase: ObservePlaybackStateUseCase,
+        observePlaybackTimeUseCase: ObservePlaybackTimeUseCase
+    ) {
+        self.resumePlaybackUseCase = resumePlaybackUseCase
+        self.pausePlaybackUseCase = pausePlaybackUseCase
+        self.observeCurrentSongUseCase = observeCurrentSongUseCase
+        self.observePlaybackStateUseCase = observePlaybackStateUseCase
+        self.observePlaybackTimeUseCase = observePlaybackTimeUseCase
+    }
+    
+    var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .onAppear:
+                return .run { send in
+                    let songStream = observeCurrentSongUseCase.execute()
+                        .compactMap { songEntity -> Action? in
+                            guard let songEntity else { return nil }
+                            return Action.currentSongUpdated(Song(
+                                id: songEntity.id,
+                                title: songEntity.title,
+                                artist: songEntity.artist,
+                                artworkImage: songEntity.artworkImage,
+                                duration: songEntity.duration
+                            ))
+                        }
+                    
+                    let playbackStream = observePlaybackStateUseCase.execute()
+                        .map { Action.currentPlaybackStateUpdated($0) }
+                    
+                    let timeStream = observePlaybackTimeUseCase.execute()
+                        .map { Action.playbackTimeUpdated($0) }
+                    
+                    for await action in songStream
+                        .merge(with: playbackStream)
+                        .merge(with: timeStream)
+                        .values {
+                        await send(action)
+                    }
+                }
+                
+            case .playButtonTapped:
+                resumePlaybackUseCase.execute()
+                return .none
+                
+            case .pauseButtonTapped:
+                pausePlaybackUseCase.execute()
+                return .none
+                
+            case let .currentSongUpdated(song):
+                state.currentSong = song
+                return .none
+                
+            case let .currentPlaybackStateUpdated(playbackState):
+                state.isPlaying = playbackState == .playing
+                return .none
+                
+            case let .playbackTimeUpdated(time):
+                state.currentTime = time
+                return .none
+            }
+        }
+    }
+}
+
 
 struct PlayerView: View {
+    
+    let store: StoreOf<Player>
+    
     @Environment(\.dismiss) private var dismiss
-    @State private var isPlaying: Bool = false
-    @State private var currentTime: Double = 0
-    @State private var duration: Double = 180
     @State private var volume: Double = 0.5
     
     var body: some View {
@@ -29,10 +129,10 @@ struct PlayerView: View {
                 Spacer()
                 
                 VStack(spacing: 0) {
-                    Text("title")
+                    Text(store.currentSong?.title ?? "")
                         .fontWeight(.bold)
                     
-                    Text("artist")
+                    Text(store.currentSong?.artist ?? "")
                         .foregroundColor(.gray)
                 }
                 .font(.title3)
@@ -45,13 +145,17 @@ struct PlayerView: View {
             
             Spacer()
             
-            Image.init(systemName: "photo")
-                .resizable()
-                .background(.gray)
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 300, height: 300)
-                .cornerRadius(8)
-                .shadow(radius: 10)
+            (
+                store.currentSong?.artworkImage == nil
+                ? Image(systemName: "music.note")
+                : Image(uiImage: store.currentSong!.artworkImage!)
+            )
+            .resizable()
+            .background(.gray)
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 300, height: 300)
+            .cornerRadius(8)
+            .shadow(radius: 10)
             
             Spacer()
             
@@ -70,9 +174,13 @@ struct PlayerView: View {
                 }
                 
                 Button(action: {
-                    isPlaying.toggle()
+                    store.send(
+                        store.isPlaying
+                        ? .pauseButtonTapped
+                        : .playButtonTapped
+                    )
                 }) {
-                    Image(systemName: isPlaying ? "pause.fill" : "play.fill")
+                    Image(systemName: store.isPlaying ? "pause.fill" : "play.fill")
                 }
                 
                 Button(action: {
@@ -105,34 +213,39 @@ struct PlayerView: View {
             .padding(.horizontal)
             .padding(.bottom, 32)
             
-            VStack(spacing: 0) {
-                HStack {
-                    Text(timeString(from: currentTime))
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                    
-                    Spacer()
-                    
-                    Text("-" + timeString(from: duration - currentTime))
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-                .padding(.horizontal)
-                
-                GeometryReader { geometry in
-                    ZStack(alignment: .leading) {
-                        Rectangle()
-                            .fill(Color.gray.opacity(0.2))
-                            .frame(height: 4)
+            if let song = store.currentSong {
+                VStack(spacing: 0) {
+                    HStack {
+                        Text(timeString(from: store.currentTime))
+                            .font(.caption)
+                            .foregroundColor(.gray)
                         
-                        Rectangle()
-                            .fill(Color.blue)
-                            .frame(width: geometry.size.width * (currentTime / duration), height: 4)
+                        Spacer()
+                        
+                        Text("-" + timeString(from: song.duration - store.currentTime))
+                            .font(.caption)
+                            .foregroundColor(.gray)
                     }
+                    .padding(.horizontal)
+                    
+                    GeometryReader { geometry in
+                        ZStack(alignment: .leading) {
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.2))
+                                .frame(height: 4)
+                            
+                            Rectangle()
+                                .fill(Color.blue)
+                                .frame(width: geometry.size.width * (store.currentTime / song.duration), height: 4)
+                        }
+                    }
+                    .frame(height: 4)
+                    .padding(.top, 8)
                 }
-                .frame(height: 4)
-                .padding(.top, 8)
             }
+        }
+        .onAppear {
+            store.send(.onAppear)
         }
     }
     

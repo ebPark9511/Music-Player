@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import PlayerFeatureInterface
 import ComposableArchitecture
 import MusicDomainInterface
 import PlayerDomainInterface
@@ -92,17 +93,14 @@ struct MiniPlayer {
                 return .none
                 
             case let .currentSongUpdated(song):
-                print("currentSongUpdated \(song.title ?? "-")")
                 state.currentSong = song
                 return .none
                 
             case let .currentPlaybackStateUpdated(playbackState):
-                print("currentPlaybackStateUpdated \(playbackState)")
                 state.isPlaying = playbackState == .playing
                 return .none
                 
             case let .playbackTimeUpdated(time):
-                print("playbackTimeUpdated \(time)")
                 state.currentTime = time
                 return .none
             }
@@ -116,9 +114,14 @@ struct MiniPlayerView: View {
     let store: StoreOf<MiniPlayer>
     
     @State private var showFullPlayer: Bool = false
+    private let coordinator: PlayerCoordinating
     
-    init(store: StoreOf<MiniPlayer>) {
+    init(
+        store: StoreOf<MiniPlayer>,
+        coordinator: PlayerCoordinating
+    ) {
         self.store = store
+        self.coordinator = coordinator
     }
     
     var body: some View {
@@ -184,8 +187,11 @@ struct MiniPlayerView: View {
             showFullPlayer = true
         }
         .sheet(isPresented: $showFullPlayer) {
-            PlayerView()
-                .presentationDragIndicator(.visible)
+            if let song = store.currentSong {
+                AnyView(coordinator.player(with: song))
+                    .presentationDragIndicator(.visible)
+            } 
+            
         }
         .opacity(store.currentSong == nil ? 0 : 1)
         .animation(.easeInOut(duration: 0.3), value: store.currentSong)

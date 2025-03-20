@@ -15,10 +15,6 @@ final class ObservePlaybackTimeUseCaseImpl: ObservePlaybackTimeUseCase {
     
     private let playerRepository: PlayerRepository
     
-    deinit {
-        print("deinit ObservePlaybackTimeUseCaseImpl")
-    }
-    
     init(playerRepository: PlayerRepository) {
         self.playerRepository = playerRepository
     }
