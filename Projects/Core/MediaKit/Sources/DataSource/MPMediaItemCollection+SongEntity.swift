@@ -11,35 +11,9 @@ import MediaKitInterface
 import MediaPlayer
 
 extension MPMediaItem: @retroactive SongEntity {
-    
-    private struct ArtworkImageConverter: ImageConvertible {
-        
-        private let artwork: MPMediaItemArtwork
-        
-        init(artwork: MPMediaItemArtwork) {
-            self.artwork = artwork
-        }
-        
-        func image(at size: CGSize) -> UIImage? {
-            artwork.image(at: size)
-        }
-    }
-
-    public var id: String {
-        playbackStoreID
-    }
-    
-    public var duration: TimeInterval {
-        playbackDuration
-    }
-    
-    public var trackNumber: Int {
-        albumTrackNumber
-    }
- 
-    public var artworkImage: (any ImageConvertible)? {
-        artwork == nil ? nil : ArtworkImageConverter(artwork: artwork!)
-    }
-    
+    public var artist: String? { albumArtist }
+    public var id: String { playbackStoreID }
+    public var artworkImage: UIImage? { artwork == nil ? nil : artwork?.image(at: .init(width: 200, height: 200)) }
+    public var duration: TimeInterval { playbackDuration }
 }
 

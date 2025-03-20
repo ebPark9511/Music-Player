@@ -12,16 +12,16 @@ import MediaKitInterface
 
 final class PausePlaybackUseCaseImpl: PausePlaybackUseCase {
     
-    private let mediaService: MediaService
+    private let playerRepository: PlayerRepository
     
     init(
-        mediaService: MediaService
+        playerRepository: PlayerRepository
     ) {
-        self.mediaService = mediaService
+        self.playerRepository = playerRepository
     }
     
     func execute() {
-        mediaService.pause()
+        playerRepository.pause()
     }
 
 }

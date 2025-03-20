@@ -20,7 +20,7 @@ final class PlayShuffleMediaUseCaseImpl: PlayShuffleMediaUseCase {
         self.playerRepository = playerRepository
     }
     
-    func execute(items: [SongEntity]) {
+    func execute(items: [Playable]) {
         playerRepository.play(items: items, isShuffle: true)
     }
 

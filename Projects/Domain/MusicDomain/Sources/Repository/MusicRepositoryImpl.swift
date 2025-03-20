@@ -52,7 +52,7 @@ private extension AlbumEntity {
             id: id,
             title: title,
             artist: artist,
-            artworkImage: artworkImage?.image(at: .init(width: 200, height: 200)),
+            artworkImage: artworkImage,
             songs: songs.map { $0.asSong }
         )
     }
@@ -63,8 +63,9 @@ private extension SongEntity {
         Song(
             id: id,
             title: title,
-            duration: duration,
-            trackNumber: trackNumber
+            artist: artist,
+            artworkImage: artworkImage,
+            duration: duration
         )
     }
 }

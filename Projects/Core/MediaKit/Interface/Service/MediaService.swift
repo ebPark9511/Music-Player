@@ -8,6 +8,7 @@
 
 import Foundation
 import Combine
+import MediaPlayer
 
 public protocol MediaService {
     @discardableResult
@@ -16,4 +17,5 @@ public protocol MediaService {
     func pause()
     
     func observeNowPlaying() -> AnyPublisher<SongEntity?, Never>
+    func observePlaybackState() -> AnyPublisher<MPMusicPlaybackState?, Never>
 }

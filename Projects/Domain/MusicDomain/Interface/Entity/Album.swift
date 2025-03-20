@@ -6,7 +6,6 @@
 //  Copyright © 2025 ebpark. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 public struct Album: Equatable, Identifiable, Hashable, Sendable {

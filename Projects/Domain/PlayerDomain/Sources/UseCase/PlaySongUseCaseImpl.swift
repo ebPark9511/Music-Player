@@ -20,9 +20,11 @@ final class PlayMediaUseCaseImpl: PlayMediaUseCase {
         self.mediaService = mediaService
     }
     
-    func execute(items: [SongEntity]) {
-        self.mediaService.play(items: items, isShuffle: false)
+    func execute(items: [Playable]) {
+        mediaService.play(items: items.map { SongItem(playableEntity: $0) }, isShuffle: false)
     }
     
     
 }
+
+

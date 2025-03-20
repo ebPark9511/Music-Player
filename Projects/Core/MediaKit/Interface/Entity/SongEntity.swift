@@ -6,15 +6,12 @@
 //  Copyright © 2025 ebpark. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-public protocol SongEntity: ArtworkContainerEntity {
+public protocol SongEntity {
     var id: String { get }
     var title: String? { get }
+    var artist: String? { get }
+    var artworkImage: UIImage? { get }
     var duration: TimeInterval { get }
-    var trackNumber: Int { get }
-}
-
-extension SongEntity {
-    public var artworkImage: (any ImageConvertible)? { nil }
 }

@@ -12,6 +12,6 @@ import MediaKitInterface
 
 /// 현재 재생 중인 곡을 감지한다.
 public protocol ObserveCurrentSongUseCase {
-    func execute() -> AnyPublisher<SongEntity?, Never>
+    func execute() -> AnyPublisher<Playable?, Never> 
 }
 

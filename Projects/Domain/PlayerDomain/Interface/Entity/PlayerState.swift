@@ -8,8 +8,7 @@
 
 import Foundation
 
-public enum PlayerState<T: Playable> {
-    case playing(media: T)
-    case paused(media: T)
-    case stopped
+public enum PlayerState: Int {
+    case playing = 1
+    case paused = 2
 }

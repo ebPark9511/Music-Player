@@ -21,7 +21,9 @@ public final class PlayerFeatureAssembly: Assembly {
                     MiniPlayer(
                         resumePlaybackUseCase: resolver.resolve(ResumePlaybackUseCase.self)!,
                         pausePlaybackUseCase: resolver.resolve(PausePlaybackUseCase.self)!,
-                        observeCurrentSongUseCase: resolver.resolve(ObserveCurrentSongUseCase.self)!
+                        observeCurrentSongUseCase: resolver.resolve(ObserveCurrentSongUseCase.self)!,
+                        observePlaybackStateUseCase: resolver.resolve(ObservePlaybackStateUseCase.self)!,
+                        observePlaybackTimeUseCase: resolver.resolve(ObservePlaybackTimeUseCase.self)!
                     )
                 }))
             }
@@ -29,4 +31,6 @@ public final class PlayerFeatureAssembly: Assembly {
         
     }
 }
+
+
 

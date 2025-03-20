@@ -46,7 +46,14 @@ final class MediaServiceImpl: MediaService {
             .map { notification in
                 (notification.object as? MPMusicPlayerController)?.nowPlayingItem
             }
-            .print("오왕굿~~")
+            .eraseToAnyPublisher()
+    }
+    
+    func observePlaybackState() -> AnyPublisher<MPMusicPlaybackState?, Never> {
+        NotificationCenter.default.publisher(for: .MPMusicPlayerControllerPlaybackStateDidChange, object: player)
+            .map { notification in
+                (notification.object as? MPMusicPlayerController)?.playbackState
+            }
             .eraseToAnyPublisher()
     }
     

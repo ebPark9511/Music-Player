@@ -11,7 +11,10 @@ import MediaKitInterface
 import Combine
 
 public protocol PlayerRepository {
-    func play(items: [SongEntity], isShuffle: Bool)
-    func observePlayingList() -> AnyPublisher<[SongEntity], Never>
-    func observeNowPlaying() -> AnyPublisher<SongEntity?, Never>
+    func play(items: [Playable], isShuffle: Bool)
+    func resume()
+    func pause()
+    
+    func observeNowPlaying() -> AnyPublisher<Playable?, Never>
+    func observePlaybackTime() -> AnyPublisher<TimeInterval, Never>
 }

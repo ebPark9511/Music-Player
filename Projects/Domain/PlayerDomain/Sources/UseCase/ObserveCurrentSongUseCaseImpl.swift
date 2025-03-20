@@ -21,7 +21,7 @@ final class ObserveCurrentSongUseCaseImpl: ObserveCurrentSongUseCase {
         self.playerRepository = playerRepository
     }
     
-    func execute() -> AnyPublisher<SongEntity?, Never> {
+    func execute() -> AnyPublisher<Playable?, Never> {
         playerRepository.observeNowPlaying()
             
     }

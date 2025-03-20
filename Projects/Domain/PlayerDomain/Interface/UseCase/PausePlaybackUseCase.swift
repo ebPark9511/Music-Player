@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// 재생을 일시정지한다
+/// 일시정지한다
 public protocol PausePlaybackUseCase {
     func execute()
 }

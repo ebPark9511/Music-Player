@@ -10,7 +10,6 @@ import SwiftUI
 import ComposableArchitecture
 import MusicDomainInterface
 import PlayerDomainInterface
-import MediaKitInterface
 import Combine
 
 @Reducer
@@ -19,30 +18,38 @@ struct MiniPlayer {
     struct State: Equatable {
         var isPlaying: Bool = false
         var currentSong: Song?
+        var currentTime: TimeInterval = 0
         
         init() { }
     }
     
     enum Action {
+        case onAppear
         case playButtonTapped
         case pauseButtonTapped
-        case currentSongUpdated(SongEntity)
-        case onAppear
+        case currentSongUpdated(Song)
+        case currentPlaybackStateUpdated(PlayerState)
+        case playbackTimeUpdated(TimeInterval)
     }
     
     private let resumePlaybackUseCase: ResumePlaybackUseCase
     private let pausePlaybackUseCase: PausePlaybackUseCase
     private let observeCurrentSongUseCase: ObserveCurrentSongUseCase
-    
-    
+    private let observePlaybackStateUseCase: ObservePlaybackStateUseCase
+    private let observePlaybackTimeUseCase: ObservePlaybackTimeUseCase
+
     init(
         resumePlaybackUseCase: ResumePlaybackUseCase,
         pausePlaybackUseCase: PausePlaybackUseCase,
-        observeCurrentSongUseCase: ObserveCurrentSongUseCase
+        observeCurrentSongUseCase: ObserveCurrentSongUseCase,
+        observePlaybackStateUseCase: ObservePlaybackStateUseCase,
+        observePlaybackTimeUseCase: ObservePlaybackTimeUseCase
     ) {
         self.resumePlaybackUseCase = resumePlaybackUseCase
         self.pausePlaybackUseCase = pausePlaybackUseCase
         self.observeCurrentSongUseCase = observeCurrentSongUseCase
+        self.observePlaybackStateUseCase = observePlaybackStateUseCase
+        self.observePlaybackTimeUseCase = observePlaybackTimeUseCase
     }
     
     var body: some ReducerOf<Self> {
@@ -50,38 +57,64 @@ struct MiniPlayer {
             switch action {
             case .onAppear:
                 return .run { send in
-                    for await song in observeCurrentSongUseCase.execute().values {
-                        if let song {
-                            await send(.currentSongUpdated(song))
+                    let songStream = observeCurrentSongUseCase.execute()
+                        .compactMap { songEntity -> Action? in
+                            guard let songEntity else { return nil }
+                            return Action.currentSongUpdated(Song(
+                                id: songEntity.id,
+                                title: songEntity.title,
+                                artist: songEntity.artist,
+                                artworkImage: songEntity.artworkImage,
+                                duration: songEntity.duration
+                            ))
                         }
+                    
+                    let playbackStream = observePlaybackStateUseCase.execute()
+                        .map { Action.currentPlaybackStateUpdated($0) }
+                    
+                    let timeStream = observePlaybackTimeUseCase.execute()
+                        .map { Action.playbackTimeUpdated($0) }
+                    
+                    for await action in songStream
+                        .merge(with: playbackStream)
+                        .merge(with: timeStream)
+                        .values {
+                        await send(action)
                     }
                 }
                 
             case .playButtonTapped:
                 resumePlaybackUseCase.execute()
-                state.isPlaying = true
                 return .none
                 
             case .pauseButtonTapped:
                 pausePlaybackUseCase.execute()
-                state.isPlaying = false
                 return .none
                 
             case let .currentSongUpdated(song):
-                state.isPlaying = true
-                state.currentSong = Song(id: song.id, title: song.title, duration: song.duration, trackNumber: song.trackNumber)
+                print("currentSongUpdated \(song.title ?? "-")")
+                state.currentSong = song
+                return .none
+                
+            case let .currentPlaybackStateUpdated(playbackState):
+                print("currentPlaybackStateUpdated \(playbackState)")
+                state.isPlaying = playbackState == .playing
+                return .none
+                
+            case let .playbackTimeUpdated(time):
+                print("playbackTimeUpdated \(time)")
+                state.currentTime = time
                 return .none
             }
         }
     }
 }
 
+
 struct MiniPlayerView: View {
     
     let store: StoreOf<MiniPlayer>
     
-    @State private var currentTime: Double = 0
-    @State private var duration: Double = 180
     @State private var showFullPlayer: Bool = false
     
     init(store: StoreOf<MiniPlayer>) {
@@ -95,7 +128,7 @@ struct MiniPlayerView: View {
                 GeometryReader { geometry in
                     Rectangle()
                         .fill(.blue)
-                        .frame(width: geometry.size.width * 0.8,//(currentTime / duration),
+                        .frame(width: geometry.size.width * (store.currentTime / song.duration),
                                height: 4)
                 }
                 .frame(height: 4)
@@ -120,20 +153,25 @@ struct MiniPlayerView: View {
                                 .fontWeight(.bold)
                                 .lineLimit(1)
                             
-                            Text(song.title ?? "Unknown artist")
+                            Text(song.artist ?? "Unknown artist")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                                 .lineLimit(1)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal, 5)
                         
-                        Image(systemName: "music.note")
-                            .resizable()
-                            .background(.gray)
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 56, height: 56)
-                            .cornerRadius(4)
-                            .padding(.trailing, 16)
+                        (
+                            song.artworkImage == nil
+                            ? Image(systemName: "music.note")
+                            : Image(uiImage: song.artworkImage!)
+                        )
+                        .resizable()
+                        .background(.gray)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 56, height: 56)
+                        .cornerRadius(4)
+                        .padding(.trailing, 16)
                     }
                 }
                 .frame(height: 72)

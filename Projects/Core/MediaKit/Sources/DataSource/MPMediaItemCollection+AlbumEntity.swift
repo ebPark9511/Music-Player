@@ -6,25 +6,12 @@
 //  Copyright © 2025 ebpark. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import MediaKitInterface
 import MediaPlayer
 
 extension MPMediaItemCollection: @retroactive AlbumEntity {
 
-    private struct ArtworkImageConverter: ImageConvertible {
-        
-        private let artwork: MPMediaItemArtwork
-        
-        init(artwork: MPMediaItemArtwork) {
-            self.artwork = artwork
-        }
-        
-        func image(at size: CGSize) -> UIImage? {
-            artwork.image(at: size)
-        }
-    }
-    
     private var _representativeItem: MPMediaItem {
         self.representativeItem ?? self.items.first!
     }
@@ -41,8 +28,8 @@ extension MPMediaItemCollection: @retroactive AlbumEntity {
         _representativeItem.albumArtist ?? _representativeItem.artist
     }
     
-    public var artworkImage: (any ImageConvertible)? {
-        _representativeItem.artwork == nil ? nil : ArtworkImageConverter(artwork: _representativeItem.artwork!)
+    public var artworkImage: UIImage? {
+        _representativeItem.artwork == nil ? nil : _representativeItem.artwork?.image(at: .init(width: 200, height: 200))
     }
     
     public var songs: [any SongEntity] {

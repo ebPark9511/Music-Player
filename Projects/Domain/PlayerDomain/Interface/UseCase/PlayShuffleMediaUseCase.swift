@@ -11,5 +11,5 @@ import Combine
 import MediaKitInterface
 
 public protocol PlayShuffleMediaUseCase {
-    func execute(items: [SongEntity])
+    func execute(items: [Playable])
 }

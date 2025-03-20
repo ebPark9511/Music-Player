@@ -19,6 +19,7 @@ public final class PlayerDomainAssembly: Assembly {
         container.register(PlayerRepository.self) { (resolver: Resolver) in
             PlayerRepositoryImpl(mediaService: resolver.resolve(MediaService.self)!)
         }
+        .inObjectScope(.container)
         
         // UseCase
         container.register(PlayMediaUseCase.self) { (resolver: Resolver) in
@@ -31,11 +32,18 @@ public final class PlayerDomainAssembly: Assembly {
             ObserveCurrentSongUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
         }
         container.register(PausePlaybackUseCase.self) { (resolver: Resolver) in
-            PausePlaybackUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
+            PausePlaybackUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
         }
         container.register(ResumePlaybackUseCase.self) { (resolver: Resolver) in
-            ResumePlaybackUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
+            ResumePlaybackUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
         }
+        container.register(ObservePlaybackStateUseCase.self) { (resolver: Resolver) in
+            ObservePlaybackStateUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
+        }
+        container.register(ObservePlaybackTimeUseCase.self) { (resolver: Resolver) in
+            ObservePlaybackTimeUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
+        }
+        
         
         
     }

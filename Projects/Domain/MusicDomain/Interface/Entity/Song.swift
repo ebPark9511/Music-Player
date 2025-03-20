@@ -6,19 +6,21 @@
 //  Copyright © 2025 ebpark. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public struct Song: Equatable, Identifiable, Hashable, Sendable {
-    public var id: String
-    public var title: String?
-    public var duration: TimeInterval
-    public var trackNumber: Int
+    public let id: String
+    public let title: String?
+    public let artist: String?
+    public let artworkImage: UIImage?
+    public let duration: TimeInterval
     
-    public init(id: String, title: String? = nil, duration: TimeInterval, trackNumber: Int) {
+    public init(id: String, title: String? = nil, artist: String? = nil, artworkImage: UIImage? = nil, duration: TimeInterval) {
         self.id = id
         self.title = title
+        self.artist = artist
+        self.artworkImage = artworkImage
         self.duration = duration
-        self.trackNumber = trackNumber
     }
    
 }

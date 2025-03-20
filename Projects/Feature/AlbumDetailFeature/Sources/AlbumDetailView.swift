@@ -24,7 +24,7 @@ struct AlbumDetail {
                 uniqueElements: album.songs.enumerated().map { index, song in
                     SongItem.State(
                         id: song.id,
-                        trackNumber: String(song.trackNumber),
+                        trackNumber: String(index+1),
                         title: song.title ?? "-",
                         song: song
                     )
@@ -56,7 +56,6 @@ struct AlbumDetail {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-                // TODO: SongEntity가 아닌. Playable로 대체가 가능할지..
             case .playButtonTapped:
                 self.playMusicUseCase.execute(items: state.album.songs.map { $0 })
                 return .none

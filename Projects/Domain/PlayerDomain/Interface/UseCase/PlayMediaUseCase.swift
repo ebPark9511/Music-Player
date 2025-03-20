@@ -9,6 +9,7 @@
 import Foundation
 import MediaKitInterface
 
+/// items을 재생한다
 public protocol PlayMediaUseCase {
-    func execute(items: [SongEntity])
+    func execute(items: [Playable])
 }

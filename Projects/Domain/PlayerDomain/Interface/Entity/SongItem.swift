@@ -6,21 +6,42 @@
 //  Copyright © 2025 ebpark. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import MediaKitInterface
 
 public struct SongItem: Playable, SongEntity {
+    
     public let id: String
     public let title: String?
+    public let artist: String?
+    public let artworkImage: UIImage?
     public let duration: TimeInterval
-    public let trackNumber: Int
-    public let artworkImage: (any ImageConvertible)?
     
-    public init(id: String, title: String?, duration: TimeInterval, trackNumber: Int, artworkImage: (any ImageConvertible)?) {
+    public init(id: String, title: String?, artist: String? = nil, artworkImage: UIImage? = nil, duration: TimeInterval) {
         self.id = id
         self.title = title
-        self.duration = duration
-        self.trackNumber = trackNumber
+        self.artist = artist
         self.artworkImage = artworkImage
+        self.duration = duration
+    }
+    
+    public init(
+        entity: SongEntity
+    ) {
+        self.id = entity.id
+        self.title = entity.title
+        self.artist = entity.artist
+        self.artworkImage = entity.artworkImage
+        self.duration = entity.duration
+    }
+    
+    public init(
+        playableEntity entity: Playable
+    ) {
+        self.id = entity.id
+        self.title = entity.title
+        self.artist = entity.artist
+        self.artworkImage = entity.artworkImage
+        self.duration = entity.duration
     }
 }
