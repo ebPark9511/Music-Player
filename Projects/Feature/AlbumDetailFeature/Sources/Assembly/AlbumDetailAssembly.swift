@@ -9,15 +9,20 @@
 import Foundation
 import AlbumDetailFeatureInterface
 import MusicDomainInterface
+import PlayerDomainInterface
 import Swinject
 
 public final class AlbumDetailAssembly: Assembly {
     public init() {}
     public func assemble(container: Container) {
-        container.register(AlbumDetailBuilder.self) { (_, album: Album) in
+        container.register(AlbumDetailBuilder.self) { (resolver, album: Album) in
             AlbumDetailBuilder {
                 AlbumDetailView(store: .init(initialState: .init(album: album), reducer: {
-                    AlbumDetail()
+                    AlbumDetail(
+                        playMusicUseCase: resolver.resolve(PlayMediaUseCase.self)!,
+                        pausePlaybackUseCase: resolver.resolve(PausePlaybackUseCase.self)!,
+                        playShuffleMediaUseCase: resolver.resolve(PlayShuffleMediaUseCase.self)!
+                    )
                 }))
             }
         }

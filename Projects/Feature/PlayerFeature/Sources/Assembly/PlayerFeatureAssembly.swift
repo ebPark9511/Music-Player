@@ -9,8 +9,7 @@
 import Foundation
 import PlayerFeatureInterface
 import Swinject
-
-import SwiftUI
+import PlayerDomainInterface
 
 public final class PlayerFeatureAssembly: Assembly {
     public init() {}
@@ -18,7 +17,13 @@ public final class PlayerFeatureAssembly: Assembly {
         
         container.register(PlayerFeatureBuilder.self) { resolver in
             PlayerFeatureBuilder {
-                MiniPlayerView()
+                MiniPlayerView(store: .init(initialState: .init(), reducer: {
+                    MiniPlayer(
+                        resumePlaybackUseCase: resolver.resolve(ResumePlaybackUseCase.self)!,
+                        pausePlaybackUseCase: resolver.resolve(PausePlaybackUseCase.self)!,
+                        observeCurrentSongUseCase: resolver.resolve(ObserveCurrentSongUseCase.self)!
+                    )
+                }))
             }
         }
         

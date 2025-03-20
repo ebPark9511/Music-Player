@@ -9,6 +9,7 @@
 import SwiftUI
 import ComposableArchitecture
 import MusicDomainInterface
+import PlayerDomainInterface
 
 @Reducer
 struct AlbumDetail {
@@ -24,7 +25,8 @@ struct AlbumDetail {
                     SongItem.State(
                         id: song.id,
                         trackNumber: String(song.trackNumber),
-                        title: song.title ?? "-"
+                        title: song.title ?? "-",
+                        song: song
                     )
                 }
             )
@@ -37,16 +39,36 @@ struct AlbumDetail {
         case songItem(id: SongItem.State.ID, action: SongItem.Action)
     }
     
+    private let playMusicUseCase: PlayMediaUseCase
+    private let pausePlaybackUseCase: PausePlaybackUseCase
+    private let playShuffleMediaUseCase: PlayShuffleMediaUseCase
+    
+    init(
+        playMusicUseCase: PlayMediaUseCase,
+        pausePlaybackUseCase: PausePlaybackUseCase,
+        playShuffleMediaUseCase: PlayShuffleMediaUseCase
+    ) {
+        self.playMusicUseCase = playMusicUseCase
+        self.pausePlaybackUseCase = pausePlaybackUseCase
+        self.playShuffleMediaUseCase = playShuffleMediaUseCase
+    }
+    
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+                // TODO: SongEntity가 아닌. Playable로 대체가 가능할지..
             case .playButtonTapped:
+                self.playMusicUseCase.execute(items: state.album.songs.map { $0 })
                 return .none
                 
             case .shuffleButtonTapped:
+                self.playShuffleMediaUseCase.execute(items: state.album.songs.map { $0 })
                 return .none
                 
-            case .songItem:
+            case let .songItem(id, action: .tapped):
+                guard let selectedIndex = state.songs.firstIndex(where: { $0.id == id }) else { return .none }
+                let songsFromSelected = Array(state.album.songs[selectedIndex...])
+                self.playMusicUseCase.execute(items: songsFromSelected)
                 return .none
             }
         }
@@ -60,7 +82,7 @@ struct AlbumDetailView: View {
         
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Album Header
+            
                 HStack(spacing: 16) {
                     (
                         self.store.album.artworkImage == nil ?
@@ -76,6 +98,8 @@ struct AlbumDetailView: View {
                         Text(store.album.title ?? "Unknown Album")
                             .font(.title)
                             .fontWeight(.bold)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(3)
                         
                         Text(store.album.artist ?? "Unknown Artist")
                             .font(.title3)
@@ -84,7 +108,6 @@ struct AlbumDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                // Playback Controls
                 HStack(spacing: 16) {
                     Button(action: { store.send(.playButtonTapped) }) {
                         Image(systemName: "play.fill")
@@ -106,7 +129,6 @@ struct AlbumDetailView: View {
                 }
                 .padding(.horizontal)
                 
-                // Song List
                 VStack(spacing: 0) {
                     ForEach(store.songs) { song in
                         SongItemView(
@@ -115,8 +137,7 @@ struct AlbumDetailView: View {
                                 action: { .songItem(id: song.id, action: $0) }
                             )
                         )
-                        Divider()
-                            .background(Color(uiColor: .systemGray5))
+                        Divider().background(Color(uiColor: .systemGray5))
                     }
                 }
                 .cornerRadius(10)
@@ -127,75 +148,4 @@ struct AlbumDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         
     }
-}
-
-@Reducer
-struct SongItem {
-    @ObservableState
-    struct State: Equatable, Identifiable {
-        let id: String
-        let trackNumber: String
-        let title: String
-    }
-    
-    enum Action {
-        case tapped
-    }
-    
-    var body: some ReducerOf<Self> {
-        Reduce { state, action in
-            switch action {
-            case .tapped:
-                return .none
-            }
-        }
-    }
-}
-
-struct SongItemView: View {
-    let store: StoreOf<SongItem>
-    
-    var body: some View {
-        Button(action: { store.send(.tapped) }) {
-            HStack(spacing: 12) {
-                Text(store.trackNumber)
-                    .frame(width: 25)
-                    .foregroundColor(.secondary)
-                    .font(.system(size: 17))
-                
-                Text(store.title)
-                    .lineLimit(1)
-                    .font(.system(size: 17))
-                
-                Spacer()
-            }
-            .padding(.horizontal, 16)
-            .frame(height: 44)
-        }
-        .buttonStyle(.plain)
-    }
-}
-
-#Preview {
-    AlbumDetailView(
-        store: Store(
-            initialState: AlbumDetail.State(
-                album: Album(
-                    id: "1",
-                    title: "Brother",
-                    artist: "Daniel Duke",
-                    artworkImage: nil,
-                    songs: [
-                        Song(id: "1", title: "Build the Levees", duration: 180, trackNumber: 1),
-                        Song(id: "2", title: "Borderline", duration: 210, trackNumber: 2),
-                        Song(id: "3", title: "A Couple Things", duration: 195, trackNumber: 3),
-                        Song(id: "10", title: "Aster", duration: 225, trackNumber: 10),
-                        Song(id: "5", title: "Brother", duration: 200, trackNumber: 5)
-                    ]
-                )
-            )
-        ) {
-            AlbumDetail()
-        }
-    )
 }

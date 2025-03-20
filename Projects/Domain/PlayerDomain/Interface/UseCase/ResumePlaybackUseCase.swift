@@ -10,7 +10,7 @@ import Foundation
 
 /// 일시정지된 곡을 다시 재생한다
 public protocol ResumePlaybackUseCase {
-    func execute() async
+    func execute()
 }
 
 

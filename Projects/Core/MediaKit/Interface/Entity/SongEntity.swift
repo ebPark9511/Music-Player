@@ -8,10 +8,13 @@
 
 import Foundation
 
-public protocol SongEntity {
+public protocol SongEntity: ArtworkContainerEntity {
     var id: String { get }
     var title: String? { get }
     var duration: TimeInterval { get }
     var trackNumber: Int { get }
 }
 
+extension SongEntity {
+    public var artworkImage: (any ImageConvertible)? { nil }
+}

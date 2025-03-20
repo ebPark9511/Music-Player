@@ -2,6 +2,7 @@ import UIKit
 import Swinject
 import MediaKit
 import MusicDomain
+import PlayerDomain
 import AlbumsFeature
 import AlbumDetailFeature
 import RootFeature
@@ -16,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         assembler = Assembler(
             [
                 MediaKitAssembly(),
+                PlayerDomainAssembly(),
                 MusicDomainAssembly(),
                 RootFeatureAssembly(),
                 PlayerFeatureAssembly(),

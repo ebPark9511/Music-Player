@@ -142,7 +142,3 @@ struct PlayerView: View {
         return String(format: "%d:%02d", minutes, seconds)
     }
 }
-
-#Preview {
-    PlayerView()
-}

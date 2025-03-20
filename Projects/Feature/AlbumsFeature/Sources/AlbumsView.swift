@@ -8,8 +8,8 @@
 
 import SwiftUI
 import ComposableArchitecture
-import MusicDomainInterface
 import AlbumsFeatureInterface
+import MusicDomainInterface
 
 @Reducer
 struct Albums {
@@ -139,39 +139,4 @@ struct AlbumsView: View {
             store.send(.onAppear)
         }
     }
-}
-
-// MARK: - Preview
-private struct PreviewAuthorizeMediaLibraryUseCase: AuthorizeMediaLibraryUseCase {
-    func execute() async throws {}
-}
-
-private struct PreviewFetchAlbumsUseCase: FetchAlbumsUseCase {
-    func execute() async throws -> [Album] {
-        return [
-            Album(id: "1", title: "Random Access Memories", artist: "Daft Punk", artworkImage: nil, songs: []),
-            Album(id: "2", title: "Abbey Road", artist: "The Beatles", artworkImage: nil, songs: [])
-        ]
-    }
-}
-
-private struct PreviewAlbumsCoordinator: AlbumsCoordinating {
-    func coordinateToAlbumDetail(with album: Album) -> any View {
-        Text("buildAlbumDetail")
-    }
-}
-
-
-#Preview {
-    AlbumsView(
-        store: Store(
-            initialState: Albums.State()
-        ) {
-            Albums(
-                authorizeMediaLibraryUseCase: PreviewAuthorizeMediaLibraryUseCase(),
-                fetchAlbumsUseCase: PreviewFetchAlbumsUseCase()
-            )
-        },
-        coordinator: PreviewAlbumsCoordinator()
-    )
 }

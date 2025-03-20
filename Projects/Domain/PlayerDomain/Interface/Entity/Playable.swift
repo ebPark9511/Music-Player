@@ -8,7 +8,6 @@
 
 import Foundation
 
-public protocol Playable {
+public protocol Playable: Identifiable {
     var id: String { get }
-    var duration: TimeInterval { get }
 }

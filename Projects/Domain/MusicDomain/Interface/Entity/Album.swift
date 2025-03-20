@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public struct Album: Equatable, Identifiable, Hashable {
+public struct Album: Equatable, Identifiable, Hashable, Sendable {
     
     public let id: String
     public var title: String?

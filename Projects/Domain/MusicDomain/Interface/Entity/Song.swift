@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Song: Equatable, Identifiable, Hashable {
+public struct Song: Equatable, Identifiable, Hashable, Sendable {
     public var id: String
     public var title: String?
     public var duration: TimeInterval
