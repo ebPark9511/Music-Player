@@ -44,7 +44,8 @@ public final class PlayerFeatureAssembly: Assembly {
                     observePlaybackTimeUseCase: resolver.resolve(ObservePlaybackTimeUseCase.self)!,
                     adjustVolumeUseCase: resolver.resolve(AdjustVolumeUseCase.self)!,
                     observeVolumeUseCase: resolver.resolve(ObserveVolumeUseCase.self)!,
-                    playPreviousSongUseCase: resolver.resolve(PlayPreviousSongUseCase.self)!
+                    playPreviousSongUseCase: resolver.resolve(PlayPreviousSongUseCase.self)!,
+                    toggleRepeatModeUseCase: resolver.resolve(ToggleRepeatModeUseCase.self)!
                 )
             }))
         }

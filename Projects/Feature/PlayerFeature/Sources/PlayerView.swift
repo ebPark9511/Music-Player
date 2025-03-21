@@ -20,12 +20,14 @@ struct Player {
         var currentSong: Song?
         var currentTime: TimeInterval = 0
         var volume: Float = 0.5
+        var isRepeatOn: Bool = false
         
-        init(isPlaying: Bool = false, currentSong: Song? = nil, currentTime: TimeInterval = 0, volume: Float = 0.5) {
+        init(isPlaying: Bool = false, currentSong: Song? = nil, currentTime: TimeInterval = 0, volume: Float = 0.5, isRepeatOn: Bool = false) {
             self.isPlaying = isPlaying
             self.currentSong = currentSong
             self.currentTime = currentTime
             self.volume = volume
+            self.isRepeatOn = isRepeatOn
         }
     }
     
@@ -39,7 +41,8 @@ struct Player {
         case currentPlaybackStateUpdated(PlayerState)
         case playbackTimeUpdated(TimeInterval)
         case chagneVolume(Float)
-        case volumeChangeRequested(Float) // 볼륨 변경 요청을 위한 새로운 액션
+        case volumeChangeRequested(Float)
+        case repeatButtonTapped
     }
     
     private let resumePlaybackUseCase: ResumePlaybackUseCase
@@ -50,6 +53,7 @@ struct Player {
     private let adjustVolumeUseCase: AdjustVolumeUseCase
     private let observeVolumeUseCase: ObserveVolumeUseCase
     private let playPreviousSongUseCase: PlayPreviousSongUseCase
+    private let toggleRepeatModeUseCase: ToggleRepeatModeUseCase
 
     init(
         resumePlaybackUseCase: ResumePlaybackUseCase,
@@ -59,7 +63,8 @@ struct Player {
         observePlaybackTimeUseCase: ObservePlaybackTimeUseCase,
         adjustVolumeUseCase: AdjustVolumeUseCase,
         observeVolumeUseCase: ObserveVolumeUseCase,
-        playPreviousSongUseCase: PlayPreviousSongUseCase
+        playPreviousSongUseCase: PlayPreviousSongUseCase,
+        toggleRepeatModeUseCase: ToggleRepeatModeUseCase
     ) {
         self.resumePlaybackUseCase = resumePlaybackUseCase
         self.pausePlaybackUseCase = pausePlaybackUseCase
@@ -69,6 +74,7 @@ struct Player {
         self.adjustVolumeUseCase = adjustVolumeUseCase
         self.observeVolumeUseCase = observeVolumeUseCase
         self.playPreviousSongUseCase = playPreviousSongUseCase
+        self.toggleRepeatModeUseCase = toggleRepeatModeUseCase
     }
     
     var body: some ReducerOf<Self> {
@@ -141,6 +147,11 @@ struct Player {
             case let .chagneVolume(volume):
                 state.volume = volume
                 return .none
+                
+            case .repeatButtonTapped:
+                state.isRepeatOn.toggle()
+                toggleRepeatModeUseCase.execute(isOn: state.isRepeatOn)
+                return .none
             }
         }
     }
@@ -185,10 +196,10 @@ struct PlayerView: View {
             
             HStack(spacing: 30) {
                 Button(action: {
-                    print("한곡반복")
+                    store.send(.repeatButtonTapped)
                 }) {
                     Image(systemName: "repeat.1")
-                        .foregroundColor(.blue.opacity(0.3))
+                        .foregroundColor(store.isRepeatOn ? .blue : .blue.opacity(0.3))
                 }
                 
                 Button(action: {

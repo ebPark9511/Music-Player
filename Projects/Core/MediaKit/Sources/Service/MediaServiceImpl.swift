@@ -54,6 +54,14 @@ final class MediaServiceImpl: MediaService {
         player.skipToNextItem()
     }
     
+    func setRepeat(isOn: Bool) {
+        if isOn {
+            player.repeatMode = .one
+        } else {
+            player.repeatMode = .none
+        }
+    }
+    
     func setVolume(_ volume: Float) {
         MPVolumeView.setVolume(volume)
     }

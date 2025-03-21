@@ -52,5 +52,10 @@ public final class PlayerDomainAssembly: Assembly {
         container.register(PlayPreviousSongUseCase.self) { (resolver: Resolver) in
             PlayPreviousSongUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
         }
+        container.register(ToggleRepeatModeUseCase.self) { (resolver: Resolver) in
+            ToggleRepeatModeUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
+        }
+        
+        
     }
 }

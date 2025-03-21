@@ -10,5 +10,5 @@ import Foundation
 
 /// 현재 곡 반복 모드 (RepeatMode)를 토글
 public protocol ToggleRepeatModeUseCase {
-    func execute()
+    func execute(isOn: Bool)
 }

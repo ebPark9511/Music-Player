@@ -17,6 +17,8 @@ public protocol MediaService {
     func pause()
     func previous()
     func next()
+    func setRepeat(isOn: Bool)
+    
     func restartCurrentSong()
     
     func observeNowPlaying() -> AnyPublisher<SongEntity?, Never>
