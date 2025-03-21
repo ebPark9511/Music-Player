@@ -10,5 +10,5 @@ import SwiftUI
 import MusicDomainInterface
 
 public protocol PlayerCoordinating {
-    func player(with song: Song) -> any View
+    func player() -> any View
 }

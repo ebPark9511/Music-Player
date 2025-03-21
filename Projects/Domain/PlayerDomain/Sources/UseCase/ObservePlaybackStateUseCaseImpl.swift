@@ -10,27 +10,18 @@ import Foundation
 import PlayerDomainInterface
 import MediaKitInterface
 import Combine
-import MediaPlayer
 
 final class ObservePlaybackStateUseCaseImpl: ObservePlaybackStateUseCase {
    
-    private let mediaService: MediaService
+    private let playerRepository: PlayerRepository
     
     init(
-        mediaService: MediaService
+        playerRepository: PlayerRepository
     ) {
-        self.mediaService = mediaService
+        self.playerRepository = playerRepository
     }
     
     func execute() -> AnyPublisher<PlayerState, Never> {
-        mediaService.observePlaybackState()
-            .compactMap { $0?.asPlayerState }
-            .eraseToAnyPublisher()
-    }
-}
-
-private extension MPMusicPlaybackState {
-    var asPlayerState: PlayerState? {
-        PlayerState(rawValue: self.rawValue)
+        playerRepository.observePlaybackState()
     }
 }

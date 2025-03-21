@@ -10,11 +10,13 @@ import Foundation
 import MediaKitInterface
 import PlayerDomainInterface
 import Combine
+import MediaPlayer
 
 final class PlayerRepositoryImpl: PlayerRepository {
     private let _mediaService: MediaService
     private let _playing: CurrentValueSubject<Playable?, Never> = .init(nil)
     private let _timer: CurrentValueSubject<TimeInterval, Never> = .init(0)
+    private let _playerState: CurrentValueSubject<PlayerState?, Never> = .init(nil)
     private var cancellables = Set<AnyCancellable>()
     private var timer: AnyCancellable?
     private var currentTime: TimeInterval = 0
@@ -44,6 +46,14 @@ final class PlayerRepositoryImpl: PlayerRepository {
                 self?._timer.send(0)
                 self?.currentTime = 0
                 self?.startTimer(duration: duration)
+            })
+            .store(in: &cancellables)
+        
+        
+        _mediaService.observePlaybackState()
+            .compactMap { $0?.asPlayerState }
+            .sink(receiveValue: { [weak self] state in
+                self?._playerState.send(state)
             })
             .store(in: &cancellables)
     }
@@ -93,11 +103,27 @@ final class PlayerRepositoryImpl: PlayerRepository {
     }
     
     func observeNowPlaying() -> AnyPublisher<Playable?, Never> {
-        _playing.eraseToAnyPublisher()
+        _playing
+            .removeDuplicates(by: { lhs, rhs in
+                lhs?.id == rhs?.id
+            })
+            .eraseToAnyPublisher()
     }
 
     func observePlaybackTime() -> AnyPublisher<TimeInterval, Never> {
         _timer.eraseToAnyPublisher()
     }
     
+    func observePlaybackState() -> AnyPublisher<PlayerState, Never> {
+        _playerState
+            .compactMap { $0 }
+            .removeDuplicates(by: { lhs, rhs in lhs == rhs })
+            .eraseToAnyPublisher()
+    }
+}
+
+private extension MPMusicPlaybackState {
+    var asPlayerState: PlayerState? {
+        PlayerState(rawValue: self.rawValue)
+    }
 }

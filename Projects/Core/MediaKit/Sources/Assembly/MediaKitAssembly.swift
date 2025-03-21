@@ -15,7 +15,9 @@ public final class MediaKitAssembly: Assembly {
     public init() {}
     public func assemble(container: Container) {
         container.register(MPMusicPlayerController.self) { _ in .applicationMusicPlayer }
-        .inObjectScope(.container)
+            .inObjectScope(.container)
+        container.register(AVAudioSession.self) { _ in .sharedInstance() }
+            .inObjectScope(.container)
         container.register(AuthorizeMediaLibraryService.self) { (resolver: Resolver) in
             AuthorizeMediaLibraryServiceImpl()
         }
@@ -23,7 +25,7 @@ public final class MediaKitAssembly: Assembly {
             MediaLibraryDataSourceImpl()
         }
         container.register(MediaService.self) { (resolver: Resolver) in
-            MediaServiceImpl(player: resolver.resolve(MPMusicPlayerController.self)!)
+            MediaServiceImpl(player: resolver.resolve(MPMusicPlayerController.self)!, audioSession: resolver.resolve(AVAudioSession.self)!)
         }
     }
 }

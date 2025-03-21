@@ -113,8 +113,9 @@ struct MiniPlayerView: View {
     
     let store: StoreOf<MiniPlayer>
     
-    @State private var showFullPlayer: Bool = false
     private let coordinator: PlayerCoordinating
+    @State private var showFullPlayer: Bool = false
+    @State private var playerView: AnyView?
     
     init(
         store: StoreOf<MiniPlayer>,
@@ -122,6 +123,7 @@ struct MiniPlayerView: View {
     ) {
         self.store = store
         self.coordinator = coordinator
+        self._playerView = State(initialValue: AnyView(coordinator.player()))
     }
     
     var body: some View {
@@ -183,21 +185,21 @@ struct MiniPlayerView: View {
             
         }
         .background(Color(UIColor.systemBackground))
+        .contentShape(Rectangle())
         .onTapGesture {
             showFullPlayer = true
         }
-        .sheet(isPresented: $showFullPlayer) {
-            if let song = store.currentSong {
-                AnyView(coordinator.player(with: song))
-                    .presentationDragIndicator(.visible)
-            } 
-            
-        }
+        .sheet(
+            isPresented: $showFullPlayer,
+            content: {
+                if let view = playerView {
+                    view.presentationDragIndicator(.visible)
+                }
+            }
+        )
         .opacity(store.currentSong == nil ? 0 : 1)
-        .animation(.easeInOut(duration: 0.3), value: store.currentSong)
         .onAppear {
             store.send(.onAppear)
         }
     }
 }
-

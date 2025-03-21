@@ -16,6 +16,9 @@ public protocol MediaService {
     func resume()
     func pause()
     
+    func setVolume(_ volume: Float)
+    func observeVolume() -> AnyPublisher<Float, Never>
+    
     func observeNowPlaying() -> AnyPublisher<SongEntity?, Never>
     func observePlaybackState() -> AnyPublisher<MPMusicPlaybackState?, Never>
 }

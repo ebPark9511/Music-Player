@@ -19,17 +19,26 @@ struct Player {
         var isPlaying: Bool = false
         var currentSong: Song?
         var currentTime: TimeInterval = 0
+        var volume: Float = 0.5
         
-        init() { }
+        init(isPlaying: Bool = false, currentSong: Song? = nil, currentTime: TimeInterval = 0, volume: Float = 0.5) {
+            self.isPlaying = isPlaying
+            self.currentSong = currentSong
+            self.currentTime = currentTime
+            self.volume = volume
+        }
     }
     
     enum Action {
         case onAppear
+        case onDisappear
         case playButtonTapped
         case pauseButtonTapped
         case currentSongUpdated(Song)
         case currentPlaybackStateUpdated(PlayerState)
         case playbackTimeUpdated(TimeInterval)
+        case chagneVolume(Float)
+        case volumeChangeRequested(Float) // 볼륨 변경 요청을 위한 새로운 액션
     }
     
     private let resumePlaybackUseCase: ResumePlaybackUseCase
@@ -37,19 +46,25 @@ struct Player {
     private let observeCurrentSongUseCase: ObserveCurrentSongUseCase
     private let observePlaybackStateUseCase: ObservePlaybackStateUseCase
     private let observePlaybackTimeUseCase: ObservePlaybackTimeUseCase
+    private let adjustVolumeUseCase: AdjustVolumeUseCase
+    private let observeVolumeUseCase: ObserveVolumeUseCase
 
     init(
         resumePlaybackUseCase: ResumePlaybackUseCase,
         pausePlaybackUseCase: PausePlaybackUseCase,
         observeCurrentSongUseCase: ObserveCurrentSongUseCase,
         observePlaybackStateUseCase: ObservePlaybackStateUseCase,
-        observePlaybackTimeUseCase: ObservePlaybackTimeUseCase
+        observePlaybackTimeUseCase: ObservePlaybackTimeUseCase,
+        adjustVolumeUseCase: AdjustVolumeUseCase,
+        observeVolumeUseCase: ObserveVolumeUseCase
     ) {
         self.resumePlaybackUseCase = resumePlaybackUseCase
         self.pausePlaybackUseCase = pausePlaybackUseCase
         self.observeCurrentSongUseCase = observeCurrentSongUseCase
         self.observePlaybackStateUseCase = observePlaybackStateUseCase
         self.observePlaybackTimeUseCase = observePlaybackTimeUseCase
+        self.adjustVolumeUseCase = adjustVolumeUseCase
+        self.observeVolumeUseCase = observeVolumeUseCase
     }
     
     var body: some ReducerOf<Self> {
@@ -75,13 +90,21 @@ struct Player {
                     let timeStream = observePlaybackTimeUseCase.execute()
                         .map { Action.playbackTimeUpdated($0) }
                     
+                    let volumeStream = observeVolumeUseCase.execute()
+                        .removeDuplicates()
+                        .map { Action.chagneVolume($0) }
+                    
                     for await action in songStream
                         .merge(with: playbackStream)
                         .merge(with: timeStream)
+                        .merge(with: volumeStream)
                         .values {
                         await send(action)
                     }
-                }
+                }.cancellable(id: CancelID.observation)
+                
+            case .onDisappear:
+                return .cancel(id: CancelID.observation)
                 
             case .playButtonTapped:
                 resumePlaybackUseCase.execute()
@@ -102,8 +125,20 @@ struct Player {
             case let .playbackTimeUpdated(time):
                 state.currentTime = time
                 return .none
+                
+            case let .volumeChangeRequested(volume):
+                adjustVolumeUseCase.execute(volume: volume)
+                return .none
+                
+            case let .chagneVolume(volume):
+                state.volume = volume
+                return .none
             }
         }
+    }
+    
+    private enum CancelID {
+        case observation
     }
 }
 
@@ -113,7 +148,6 @@ struct PlayerView: View {
     let store: StoreOf<Player>
     
     @Environment(\.dismiss) private var dismiss
-    @State private var volume: Double = 0.5
     
     var body: some View {
         VStack(spacing: 32) {
@@ -128,15 +162,7 @@ struct PlayerView: View {
                 
                 Spacer()
                 
-                VStack(spacing: 0) {
-                    Text(store.currentSong?.title ?? "")
-                        .fontWeight(.bold)
-                    
-                    Text(store.currentSong?.artist ?? "")
-                        .foregroundColor(.gray)
-                }
-                .font(.title3)
-                .frame(maxWidth: .infinity, alignment: .center)
+                SongInfoView(song: store.currentSong)
                 
                 Spacer().frame(width: 44)
                 
@@ -145,17 +171,7 @@ struct PlayerView: View {
             
             Spacer()
             
-            (
-                store.currentSong?.artworkImage == nil
-                ? Image(systemName: "music.note")
-                : Image(uiImage: store.currentSong!.artworkImage!)
-            )
-            .resizable()
-            .background(.gray)
-            .aspectRatio(contentMode: .fit)
-            .frame(width: 300, height: 300)
-            .cornerRadius(8)
-            .shadow(radius: 10)
+            ArtworkImageView(image: store.currentSong?.artworkImage)
             
             Spacer()
             
@@ -203,8 +219,11 @@ struct PlayerView: View {
                 Image(systemName: "speaker.fill")
                     .foregroundColor(.gray)
                 
-                Slider(value: $volume, in: 0...1)
-                    .accentColor(.gray)
+                Slider(value: .init(
+                    get: { Double(store.volume) },
+                    set: { store.send(.volumeChangeRequested(Float($0))) }
+                ), in: 0...1)
+                .accentColor(.gray)
                 
                 Image(systemName: "speaker.wave.3.fill")
                     .foregroundColor(.gray)
@@ -214,38 +233,90 @@ struct PlayerView: View {
             .padding(.bottom, 32)
             
             if let song = store.currentSong {
-                VStack(spacing: 0) {
-                    HStack {
-                        Text(timeString(from: store.currentTime))
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                        
-                        Spacer()
-                        
-                        Text("-" + timeString(from: song.duration - store.currentTime))
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                    }
-                    .padding(.horizontal)
-                    
-                    GeometryReader { geometry in
-                        ZStack(alignment: .leading) {
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.2))
-                                .frame(height: 4)
-                            
-                            Rectangle()
-                                .fill(Color.blue)
-                                .frame(width: geometry.size.width * (store.currentTime / song.duration), height: 4)
-                        }
-                    }
-                    .frame(height: 4)
-                    .padding(.top, 8)
-                }
+                PlaybackProgressView(currentTime: store.currentTime, duration: song.duration)
             }
         }
         .onAppear {
             store.send(.onAppear)
+        }
+        .onDisappear {
+            store.send(.onDisappear) 
+        }
+    }
+    
+    private func timeString(from timeInterval: Double) -> String {
+        let minutes = Int(timeInterval) / 60
+        let seconds = Int(timeInterval) % 60
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+}
+
+private struct SongInfoView: View {
+    let song: Song?
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            Text(song?.title ?? "")
+                .fontWeight(.bold)
+            
+            Text(song?.artist ?? "")
+                .foregroundColor(.gray)
+        }
+        .font(.title3)
+        .frame(maxWidth: .infinity, alignment: .center)
+    }
+}
+
+private struct ArtworkImageView: View {
+    let image: UIImage?
+    
+    var body: some View {
+        (
+            image == nil
+            ? Image(systemName: "music.note")
+            : Image(uiImage: image!)
+        )
+        .resizable()
+        .background(.gray)
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 300, height: 300)
+        .cornerRadius(8)
+        .shadow(radius: 10)
+    }
+}
+
+private struct PlaybackProgressView: View {
+    let currentTime: TimeInterval
+    let duration: TimeInterval
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(timeString(from: currentTime))
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                
+                Spacer()
+                
+                Text("-" + timeString(from: duration - currentTime))
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+            .padding(.horizontal)
+            
+            GeometryReader { geometry in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(height: 4)
+                    
+                    Rectangle()
+                        .fill(Color.blue)
+                        .frame(width: geometry.size.width * (currentTime / duration), height: 4)
+                }
+            }
+            .frame(height: 4)
+            .padding(.top, 8)
         }
     }
     

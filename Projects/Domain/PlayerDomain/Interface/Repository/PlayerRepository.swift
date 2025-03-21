@@ -17,4 +17,6 @@ public protocol PlayerRepository {
     
     func observeNowPlaying() -> AnyPublisher<Playable?, Never>
     func observePlaybackTime() -> AnyPublisher<TimeInterval, Never>
+    func observePlaybackState() -> AnyPublisher<PlayerState, Never>
 }
+

@@ -10,5 +10,5 @@ import Foundation
 
 public enum PlayerState: Int {
     case playing = 1
-    case paused = 2
+    case paused 
 }

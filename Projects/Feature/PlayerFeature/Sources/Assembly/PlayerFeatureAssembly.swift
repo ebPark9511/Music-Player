@@ -34,18 +34,18 @@ public final class PlayerFeatureAssembly: Assembly {
             }
         }
         
-        container.register(PlayerBuilder.self) { (resolver: Resolver, song: Song) in
-            PlayerBuilder {
-                PlayerView(store: .init(initialState: .init(), reducer: {
-                    Player(
-                        resumePlaybackUseCase: resolver.resolve(ResumePlaybackUseCase.self)!,
-                        pausePlaybackUseCase: resolver.resolve(PausePlaybackUseCase.self)!,
-                        observeCurrentSongUseCase: resolver.resolve(ObserveCurrentSongUseCase.self)!,
-                        observePlaybackStateUseCase: resolver.resolve(ObservePlaybackStateUseCase.self)!,
-                        observePlaybackTimeUseCase: resolver.resolve(ObservePlaybackTimeUseCase.self)!
-                    )
-                }))
-            }
+        container.register(PlayerView.self) { resolver in
+            PlayerView(store: .init(initialState: .init(), reducer: {
+                Player(
+                    resumePlaybackUseCase: resolver.resolve(ResumePlaybackUseCase.self)!,
+                    pausePlaybackUseCase: resolver.resolve(PausePlaybackUseCase.self)!,
+                    observeCurrentSongUseCase: resolver.resolve(ObserveCurrentSongUseCase.self)!,
+                    observePlaybackStateUseCase: resolver.resolve(ObservePlaybackStateUseCase.self)!,
+                    observePlaybackTimeUseCase: resolver.resolve(ObservePlaybackTimeUseCase.self)!,
+                    adjustVolumeUseCase: resolver.resolve(AdjustVolumeUseCase.self)!,
+                    observeVolumeUseCase: resolver.resolve(ObserveVolumeUseCase.self)!
+                )
+            }))
         }
         
     }

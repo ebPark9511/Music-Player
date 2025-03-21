@@ -18,7 +18,7 @@ struct PlayerCoordinator: PlayerCoordinating {
         self.resolver = resolver
     }
     
-    func player(with song: Song) -> any View {
-        resolver.resolve(PlayerBuilder.self, argument: song)!
+    func player() -> any View {
+        resolver.resolve(PlayerView.self)!
     }
 }

@@ -38,10 +38,16 @@ public final class PlayerDomainAssembly: Assembly {
             ResumePlaybackUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
         }
         container.register(ObservePlaybackStateUseCase.self) { (resolver: Resolver) in
-            ObservePlaybackStateUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
+            ObservePlaybackStateUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
         }
         container.register(ObservePlaybackTimeUseCase.self) { (resolver: Resolver) in
             ObservePlaybackTimeUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
+        }
+        container.register(AdjustVolumeUseCase.self) { (resolver: Resolver) in
+            AdjustVolumeUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
+        }
+        container.register(ObserveVolumeUseCase.self) { (resolver: Resolver) in
+            ObserveVolumeUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
         }
         
         

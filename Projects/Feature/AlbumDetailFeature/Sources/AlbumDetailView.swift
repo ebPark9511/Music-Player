@@ -75,6 +75,7 @@ struct AlbumDetail {
 }
 
 struct AlbumDetailView: View {
+    
     let store: StoreOf<AlbumDetail>
     
     var body: some View {
