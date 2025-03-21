@@ -5,7 +5,9 @@ import ProjectDescriptionHelpers
 let project = Project.module(
     name: ModulePaths.Domain.PlayerDomain.rawValue,
     targets: [
-        .interface(module: .domain(.PlayerDomain)),
+        .interface(module: .domain(.PlayerDomain), dependencies: [
+            .core(target: .MediaKit, type: .interface)
+        ]),
         .implements(module: .domain(.PlayerDomain), dependencies: [
             .domain(target: .PlayerDomain, type: .interface)
         ]),

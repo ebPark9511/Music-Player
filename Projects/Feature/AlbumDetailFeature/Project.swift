@@ -5,10 +5,11 @@ import ProjectDescriptionHelpers
 let project = Project.module(
     name: ModulePaths.Feature.AlbumDetailFeature.rawValue,
     targets: [
-        .interface(module: .feature(.AlbumDetailFeature)),
+        .interface(module: .feature(.AlbumDetailFeature), dependencies: [
+            .domain(target: .MusicDomain, type: .interface),
+        ]),
         .implements(module: .feature(.AlbumDetailFeature), dependencies: [
             .feature(target: .AlbumDetailFeature, type: .interface),
-            .domain(target: .MusicDomain, type: .interface),
             .domain(target: .PlayerDomain, type: .interface),
             .feature(target: .BaseFeature),
         ]),
