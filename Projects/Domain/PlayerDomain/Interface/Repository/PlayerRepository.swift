@@ -14,6 +14,7 @@ public protocol PlayerRepository {
     func play(items: [Playable], isShuffle: Bool)
     func resume()
     func pause()
+    func previous()
     
     func observeNowPlaying() -> AnyPublisher<Playable?, Never>
     func observePlaybackTime() -> AnyPublisher<TimeInterval, Never>

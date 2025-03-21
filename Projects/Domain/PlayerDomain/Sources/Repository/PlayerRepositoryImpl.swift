@@ -13,10 +13,13 @@ import Combine
 import MediaPlayer
 
 final class PlayerRepositoryImpl: PlayerRepository {
+    
     private let _mediaService: MediaService
     private let _playing: CurrentValueSubject<Playable?, Never> = .init(nil)
     private let _timer: CurrentValueSubject<TimeInterval, Never> = .init(0)
     private let _playerState: CurrentValueSubject<PlayerState?, Never> = .init(nil)
+    private let _restart: PassthroughSubject<Void, Never> = .init()
+    
     private var cancellables = Set<AnyCancellable>()
     private var timer: AnyCancellable?
     private var currentTime: TimeInterval = 0
@@ -40,15 +43,21 @@ final class PlayerRepositoryImpl: PlayerRepository {
             }
             .store(in: &cancellables)
         
-        observeNowPlaying
-            .compactMap { $0?.duration }
-            .sink(receiveValue: { [weak self] duration in
-                self?._timer.send(0)
-                self?.currentTime = 0
-                self?.startTimer(duration: duration)
-            })
-            .store(in: &cancellables)
+        let restartPublisher = _restart
+            .compactMap { [weak self] _ in
+                self?._playing.value?.duration
+            }
         
+        Publishers.Merge(
+            observeNowPlaying.compactMap { $0?.duration },
+            restartPublisher
+        )
+        .sink(receiveValue: { [weak self] duration in
+            self?._timer.send(0)
+            self?.currentTime = 0
+            self?.startTimer(duration: duration)
+        })
+        .store(in: &cancellables)
         
         _mediaService.observePlaybackState()
             .compactMap { $0?.asPlayerState }
@@ -65,6 +74,7 @@ final class PlayerRepositoryImpl: PlayerRepository {
     
     private func startTimer(duration: TimeInterval) {
         timer?.cancel()
+        currentTime = 0
         timer = Timer.publish(every: 1.0, on: .main, in: .common)
             .autoconnect()
             .map { _ in duration }
@@ -88,6 +98,18 @@ final class PlayerRepositoryImpl: PlayerRepository {
             items: items.map { SongItem(playableEntity: $0) },
             isShuffle: isShuffle
         )
+    }
+    
+    func previous() {
+        if _timer.value > 3 {
+            stopTimer()
+            _mediaService.restartCurrentSong()
+            
+        } else {
+            _mediaService.previous()
+        }
+        
+        _restart.send()
     }
     
     func resume() {

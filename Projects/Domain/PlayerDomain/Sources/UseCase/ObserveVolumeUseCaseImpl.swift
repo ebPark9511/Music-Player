@@ -13,7 +13,6 @@ import Combine
 
 final class ObserveVolumeUseCaseImpl: ObserveVolumeUseCase {
     
-    
     private let mediaService: MediaService
     
     init(

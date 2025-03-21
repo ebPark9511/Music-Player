@@ -34,6 +34,7 @@ struct Player {
         case onDisappear
         case playButtonTapped
         case pauseButtonTapped
+        case previousButtonTapped
         case currentSongUpdated(Song)
         case currentPlaybackStateUpdated(PlayerState)
         case playbackTimeUpdated(TimeInterval)
@@ -48,6 +49,7 @@ struct Player {
     private let observePlaybackTimeUseCase: ObservePlaybackTimeUseCase
     private let adjustVolumeUseCase: AdjustVolumeUseCase
     private let observeVolumeUseCase: ObserveVolumeUseCase
+    private let playPreviousSongUseCase: PlayPreviousSongUseCase
 
     init(
         resumePlaybackUseCase: ResumePlaybackUseCase,
@@ -56,7 +58,8 @@ struct Player {
         observePlaybackStateUseCase: ObservePlaybackStateUseCase,
         observePlaybackTimeUseCase: ObservePlaybackTimeUseCase,
         adjustVolumeUseCase: AdjustVolumeUseCase,
-        observeVolumeUseCase: ObserveVolumeUseCase
+        observeVolumeUseCase: ObserveVolumeUseCase,
+        playPreviousSongUseCase: PlayPreviousSongUseCase
     ) {
         self.resumePlaybackUseCase = resumePlaybackUseCase
         self.pausePlaybackUseCase = pausePlaybackUseCase
@@ -65,6 +68,7 @@ struct Player {
         self.observePlaybackTimeUseCase = observePlaybackTimeUseCase
         self.adjustVolumeUseCase = adjustVolumeUseCase
         self.observeVolumeUseCase = observeVolumeUseCase
+        self.playPreviousSongUseCase = playPreviousSongUseCase
     }
     
     var body: some ReducerOf<Self> {
@@ -112,6 +116,10 @@ struct Player {
                 
             case .pauseButtonTapped:
                 pausePlaybackUseCase.execute()
+                return .none
+                
+            case .previousButtonTapped:
+                playPreviousSongUseCase.execute()
                 return .none
                 
             case let .currentSongUpdated(song):
@@ -184,7 +192,7 @@ struct PlayerView: View {
                 }
                 
                 Button(action: {
-                    print("이전")
+                    store.send(.previousButtonTapped)
                 }) {
                     Image(systemName: "backward.fill")
                 }

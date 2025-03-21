@@ -49,8 +49,8 @@ public final class PlayerDomainAssembly: Assembly {
         container.register(ObserveVolumeUseCase.self) { (resolver: Resolver) in
             ObserveVolumeUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
         }
-        
-        
-        
+        container.register(PlayPreviousSongUseCase.self) { (resolver: Resolver) in
+            PlayPreviousSongUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
+        }
     }
 }

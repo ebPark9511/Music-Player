@@ -15,6 +15,9 @@ public protocol MediaService {
     func play(items: [SongEntity], isShuffle: Bool) -> [SongEntity]
     func resume()
     func pause()
+    func previous()
+    func next()
+    func restartCurrentSong()
     
     func setVolume(_ volume: Float)
     func observeVolume() -> AnyPublisher<Float, Never>

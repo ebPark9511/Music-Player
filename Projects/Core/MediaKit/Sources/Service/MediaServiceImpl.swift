@@ -13,7 +13,7 @@ import Combine
 import AVFoundation
 
 final class MediaServiceImpl: MediaService {
-    
+
     private let player: MPMusicPlayerController
     private let audioSession: AVAudioSession
     
@@ -49,8 +49,29 @@ final class MediaServiceImpl: MediaService {
         player.stop()
     }
     
+    func previous() {
+        guard player.indexOfNowPlayingItem > 0 else {
+            restartCurrentSong()
+            return
+        }
+        
+        player.pause()
+        player.skipToPreviousItem()
+        player.prepareToPlay()
+        player.play()
+    }
+    
+    func next() {
+        player.skipToNextItem()
+    }
+    
     func setVolume(_ volume: Float) {
         MPVolumeView.setVolume(volume)
+    }
+    
+    func restartCurrentSong() {
+        player.skipToBeginning()
+        player.play()
     }
     
     func observeVolume() -> AnyPublisher<Float, Never> {
