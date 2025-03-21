@@ -10,26 +10,15 @@ import Foundation
 import MediaPlayer
 import MediaKitInterface
 import Combine
-import AVFoundation
 
 final class MediaServiceImpl: MediaService {
 
     private let player: MPMusicPlayerController
-    private let audioSession: AVAudioSession
     
     init(
-        player: MPMusicPlayerController,
-        audioSession: AVAudioSession
+        player: MPMusicPlayerController
     ) {
         self.player = player
-        self.audioSession = audioSession
-        
-        do {
-            try audioSession.setCategory(.playback, options: .mixWithOthers)
-            try audioSession.setActive(true)
-        } catch {
-            print("Failed to setup audio session:", error)
-        }
     }
     
     
@@ -72,17 +61,6 @@ final class MediaServiceImpl: MediaService {
     func restartCurrentSong() {
         player.skipToBeginning()
         player.play()
-    }
-    
-    func observeVolume() -> AnyPublisher<Float, Never> {
-        return Just(audioSession.outputVolume)
-            .merge(with:
-                    NotificationCenter.default.publisher(for: Notification.Name("SystemVolumeDidChange"))
-                .compactMap { notification in
-                    notification.userInfo?["Volume"] as? Float
-                }
-            )
-            .eraseToAnyPublisher()
     }
     
     func observeNowPlaying() -> AnyPublisher<SongEntity?, Never> {

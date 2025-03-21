@@ -13,16 +13,17 @@ import Combine
 
 final class ObserveVolumeUseCaseImpl: ObserveVolumeUseCase {
     
-    private let mediaService: MediaService
+    private let audiaService: AudioService
     
     init(
-        mediaService: MediaService
+        audiaService: AudioService
     ) {
-        self.mediaService = mediaService
+        self.audiaService = audiaService
     }
     
+    
     func execute() -> AnyPublisher<Float, Never> {
-        mediaService.observeVolume()
+        audiaService.observeVolume()
     }
 
 }

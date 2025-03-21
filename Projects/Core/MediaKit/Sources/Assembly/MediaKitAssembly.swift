@@ -25,7 +25,11 @@ public final class MediaKitAssembly: Assembly {
             MediaLibraryDataSourceImpl()
         }
         container.register(MediaService.self) { (resolver: Resolver) in
-            MediaServiceImpl(player: resolver.resolve(MPMusicPlayerController.self)!, audioSession: resolver.resolve(AVAudioSession.self)!)
+            MediaServiceImpl(player: resolver.resolve(MPMusicPlayerController.self)!)
         }
+        container.register(AudioService.self) { (resolver: Resolver) in
+            AudioServiceImpl(audioSession: resolver.resolve(AVAudioSession.self)!)
+        }
+        
     }
 }

@@ -12,16 +12,16 @@ import MediaKitInterface
 
 final class AdjustVolumeUseCaseImpl: AdjustVolumeUseCase {
     
-    private let mediaService: MediaService
+    private let audiaService: AudioService
     
     init(
-        mediaService: MediaService
+        audiaService: AudioService
     ) {
-        self.mediaService = mediaService
+        self.audiaService = audiaService
     }
     
     func execute(volume: Float) {
-        mediaService.setVolume(volume)
+        audiaService.setVolume(volume)
     }
 
 }

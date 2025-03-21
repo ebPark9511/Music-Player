@@ -44,10 +44,10 @@ public final class PlayerDomainAssembly: Assembly {
             ObservePlaybackTimeUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
         }
         container.register(AdjustVolumeUseCase.self) { (resolver: Resolver) in
-            AdjustVolumeUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
+            AdjustVolumeUseCaseImpl(audiaService: resolver.resolve(AudioService.self)!)
         }
         container.register(ObserveVolumeUseCase.self) { (resolver: Resolver) in
-            ObserveVolumeUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
+            ObserveVolumeUseCaseImpl(audiaService: resolver.resolve(AudioService.self)!)
         }
         container.register(PlayPreviousSongUseCase.self) { (resolver: Resolver) in
             PlayPreviousSongUseCaseImpl(playerRepository: resolver.resolve(PlayerRepository.self)!)
