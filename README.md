@@ -1,17 +1,13 @@
 # Music-Player
 
+- **아키텍처**
+  - [The Modular Architecture(TMA) 기반의 모듈화 아키텍처](https://docs.tuist.dev/ko/guides/develop/projects/tma-architecture#the-modular-architecture-tm)
+  - [Swift Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture)
 
-[![Tuist Modular Architecture](https://img.shields.io/badge/Tuist%20Modular%20Architecture-%232197D6?style=for-the-badge&logo=tuist&logoColor=white)](https://docs.tuist.dev/ko/guides/develop/projects/tma-architecture#the-modular-architecture-tma)
+- **의존성 주입**
+  - [Swinject](https://github.com/Swinject/Swinject)
 
-[![Swift Composable Architecture](https://img.shields.io/badge/Swift%20Composable%20Architecture-%23F05138?style=for-the-badge&logo=swift&logoColor=white)](https://github.com/pointfreeco/swift-composable-architecture)
-
-[![Tuist Modular Template](https://img.shields.io/badge/Tuist%20Modular%20Template-%232197D6?style=for-the-badge&logo=tuist&logoColor=white)](https://github.com/baekteun/Tuist_Modular_Template)
-[![Swinject](https://img.shields.io/badge/Swinject-%23CC3D3D?style=for-the-badge&logo=swift&logoColor=white)](https://github.com/Swinject/Swinject)
-
-
-![image](https://github.com/user-attachments/assets/c91af422-71b1-4a28-b93a-4d4cfb145bdf)
-
-
+<br><br>
 
 
 # 실행 방법
@@ -21,8 +17,7 @@ tuist 4.44.3 에서 작업되었습니다.
 $cd {프로젝트 경로}
 $make generate
 ```
-
-
+<br><br>
 
 
 # 잔여 기능
@@ -32,10 +27,11 @@ $make generate
 - [ ] 플레이어 > 다음곡부터 셔플 재생
 
 
-
+<br><br>
 
 
 # Music Player App 모듈 구조
+![test drawio](https://github.com/user-attachments/assets/8418c1e7-ee00-40fd-8a9f-b411ab3074a3)
 
 ## Core Layer
 ### MediaKit
@@ -83,4 +79,10 @@ $make generate
 ### App
 - 앱의 진입점
 - 의존성 주입 설정
+
+
+<br><br><br><br><br>
+
+
+![image](https://github.com/user-attachments/assets/c91af422-71b1-4a28-b93a-4d4cfb145bdf)
 
