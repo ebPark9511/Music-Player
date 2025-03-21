@@ -15,6 +15,7 @@ public protocol PlayerRepository {
     func resume()
     func pause()
     func previous()
+    func next()
     
     func observeNowPlaying() -> AnyPublisher<Playable?, Never>
     func observePlaybackTime() -> AnyPublisher<TimeInterval, Never>

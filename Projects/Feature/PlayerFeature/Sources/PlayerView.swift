@@ -39,6 +39,7 @@ struct Player {
         case playButtonTapped
         case pauseButtonTapped
         case previousButtonTapped
+        case nextButtonTapped
         case currentSongUpdated(Song)
         case currentPlaybackStateUpdated(PlayerState)
         case playbackTimeUpdated(TimeInterval)
@@ -56,6 +57,7 @@ struct Player {
     private let adjustVolumeUseCase: AdjustVolumeUseCase
     private let observeVolumeUseCase: ObserveVolumeUseCase
     private let playPreviousSongUseCase: PlayPreviousSongUseCase
+    private let playNextSongUseCase: PlayNextSongUseCase
     private let toggleRepeatModeUseCase: ToggleRepeatModeUseCase
     private let toggleShuffleModeUseCase: ToggleShuffleModeUseCase
 
@@ -68,6 +70,7 @@ struct Player {
         adjustVolumeUseCase: AdjustVolumeUseCase,
         observeVolumeUseCase: ObserveVolumeUseCase,
         playPreviousSongUseCase: PlayPreviousSongUseCase,
+        playNextSongUseCase: PlayNextSongUseCase,
         toggleRepeatModeUseCase: ToggleRepeatModeUseCase,
         toggleShuffleModeUseCase: ToggleShuffleModeUseCase
     ) {
@@ -79,6 +82,7 @@ struct Player {
         self.adjustVolumeUseCase = adjustVolumeUseCase
         self.observeVolumeUseCase = observeVolumeUseCase
         self.playPreviousSongUseCase = playPreviousSongUseCase
+        self.playNextSongUseCase = playNextSongUseCase
         self.toggleRepeatModeUseCase = toggleRepeatModeUseCase
         self.toggleShuffleModeUseCase = toggleShuffleModeUseCase
     }
@@ -132,6 +136,10 @@ struct Player {
                 
             case .previousButtonTapped:
                 playPreviousSongUseCase.execute()
+                return .none
+                
+            case .nextButtonTapped:
+                playNextSongUseCase.execute()
                 return .none
                 
             case let .currentSongUpdated(song):
@@ -230,7 +238,7 @@ struct PlayerView: View {
                 }
                 
                 Button(action: {
-                    print("다음")
+                    store.send(.nextButtonTapped)
                 }) {
                     Image(systemName: "forward.fill")
                 }

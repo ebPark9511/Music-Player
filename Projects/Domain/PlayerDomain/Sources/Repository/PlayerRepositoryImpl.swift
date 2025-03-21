@@ -112,6 +112,10 @@ final class PlayerRepositoryImpl: PlayerRepository {
         _restart.send()
     }
     
+    func next() {
+        _mediaService.next()
+    }
+    
     func resume() {
         _mediaService.resume()
         if let playing = _playing.value {
