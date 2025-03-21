@@ -1,5 +1,8 @@
 # Music-Player
+![image](https://github.com/user-attachments/assets/c91af422-71b1-4a28-b93a-4d4cfb145bdf)
+<br><br>
 
+# 기술스택
 - **아키텍처**
   - [The Modular Architecture(TMA) 기반의 모듈화 아키텍처](https://docs.tuist.dev/ko/guides/develop/projects/tma-architecture#the-modular-architecture-tm)
   - [Swift Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture)
@@ -84,5 +87,4 @@ $make generate
 <br><br><br><br><br>
 
 
-![image](https://github.com/user-attachments/assets/c91af422-71b1-4a28-b93a-4d4cfb145bdf)
 
