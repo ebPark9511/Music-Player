@@ -1,12 +1,5 @@
 # Music-Player
 
-### 잔여 기능
-- [] 플레이어 > 이전곡 재생
-- [] 플레이어 > 다음곡 재생
-- [] 플레이어 > 한곡 반복
-- [] 플레이어 > 다음곡부터 셔플 재생
-
-
 
 [![Tuist Modular Architecture](https://img.shields.io/badge/Tuist%20Modular%20Architecture-%232197D6?style=for-the-badge&logo=tuist&logoColor=white)](https://docs.tuist.dev/ko/guides/develop/projects/tma-architecture#the-modular-architecture-tma)
 
@@ -26,6 +19,13 @@
 $cd {프로젝트 경로}
 $make generate
 ```
+
+
+# 잔여 기능
+-[] 플레이어 > 이전곡 재생
+-[] 플레이어 > 다음곡 재생
+-[] 플레이어 > 한곡 반복
+-[] 플레이어 > 다음곡부터 셔플 재생
 
 
 
