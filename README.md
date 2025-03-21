@@ -1,15 +1,31 @@
 # Music-Player
+
+### 잔여 기능
+- [] 플레이어 > 이전곡 재생
+- [] 플레이어 > 다음곡 재생
+- [] 플레이어 > 한곡 반복
+- [] 플레이어 > 다음곡부터 셔플 재생
+
+
+
 [![Tuist Modular Architecture](https://img.shields.io/badge/Tuist%20Modular%20Architecture-%232197D6?style=for-the-badge&logo=tuist&logoColor=white)](https://docs.tuist.dev/ko/guides/develop/projects/tma-architecture#the-modular-architecture-tma)
 
 [![Swift Composable Architecture](https://img.shields.io/badge/Swift%20Composable%20Architecture-%23F05138?style=for-the-badge&logo=swift&logoColor=white)](https://github.com/pointfreeco/swift-composable-architecture)
 
 [![Tuist Modular Template](https://img.shields.io/badge/Tuist%20Modular%20Template-%232197D6?style=for-the-badge&logo=tuist&logoColor=white)](https://github.com/baekteun/Tuist_Modular_Template)
-
+[![Swinject](https://img.shields.io/badge/Swinject-%23CC3D3D?style=for-the-badge&logo=swift&logoColor=white)](https://github.com/Swinject/Swinject)
 
 
 ![image](https://github.com/user-attachments/assets/c91af422-71b1-4a28-b93a-4d4cfb145bdf)
 
 
+# 실행 방법
+4.44.3 에서 작업되었습니다.
+
+```
+$cd {프로젝트 경로}
+$make generate
+```
 
 
 
@@ -24,6 +40,7 @@
   - 음악 재생/일시정지/정지 제어
   - 현재 재생 중인 곡 정보 제공
   - 재생 상태 및 시간 관찰
+  - 볼륨 제어 및 볼륨 관찰
 
 ## Domain Layer
 ### MusicDomain
