@@ -55,7 +55,9 @@ public final class PlayerDomainAssembly: Assembly {
         container.register(ToggleRepeatModeUseCase.self) { (resolver: Resolver) in
             ToggleRepeatModeUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
         }
-        
+        container.register(ToggleShuffleModeUseCase.self) { (resolver: Resolver) in
+            ToggleShuffleModeUseCaseImpl(mediaService: resolver.resolve(MediaService.self)!)
+        }
         
     }
 }

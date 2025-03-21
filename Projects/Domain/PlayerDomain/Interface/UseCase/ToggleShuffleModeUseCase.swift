@@ -10,6 +10,6 @@ import Foundation
 
 /// 셔플을 ON/OFF 한다.
 public protocol ToggleShuffleModeUseCase {
-    func execute()
+    func execute(isOn: Bool)
 }
 

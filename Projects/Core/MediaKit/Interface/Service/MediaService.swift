@@ -18,6 +18,7 @@ public protocol MediaService {
     func previous()
     func next()
     func setRepeat(isOn: Bool)
+    func setShuffle(isOn: Bool)
     
     func restartCurrentSong()
     

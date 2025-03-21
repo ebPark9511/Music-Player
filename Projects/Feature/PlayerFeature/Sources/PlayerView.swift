@@ -21,13 +21,15 @@ struct Player {
         var currentTime: TimeInterval = 0
         var volume: Float = 0.5
         var isRepeatOn: Bool = false
+        var isShuffleOn: Bool = false
         
-        init(isPlaying: Bool = false, currentSong: Song? = nil, currentTime: TimeInterval = 0, volume: Float = 0.5, isRepeatOn: Bool = false) {
+        init(isPlaying: Bool = false, currentSong: Song? = nil, currentTime: TimeInterval = 0, volume: Float = 0.5, isRepeatOn: Bool = false, isShuffleOn: Bool = false) {
             self.isPlaying = isPlaying
             self.currentSong = currentSong
             self.currentTime = currentTime
             self.volume = volume
             self.isRepeatOn = isRepeatOn
+            self.isShuffleOn = isShuffleOn
         }
     }
     
@@ -43,6 +45,7 @@ struct Player {
         case chagneVolume(Float)
         case volumeChangeRequested(Float)
         case repeatButtonTapped
+        case shuffleButtonTapped
     }
     
     private let resumePlaybackUseCase: ResumePlaybackUseCase
@@ -54,6 +57,7 @@ struct Player {
     private let observeVolumeUseCase: ObserveVolumeUseCase
     private let playPreviousSongUseCase: PlayPreviousSongUseCase
     private let toggleRepeatModeUseCase: ToggleRepeatModeUseCase
+    private let toggleShuffleModeUseCase: ToggleShuffleModeUseCase
 
     init(
         resumePlaybackUseCase: ResumePlaybackUseCase,
@@ -64,7 +68,8 @@ struct Player {
         adjustVolumeUseCase: AdjustVolumeUseCase,
         observeVolumeUseCase: ObserveVolumeUseCase,
         playPreviousSongUseCase: PlayPreviousSongUseCase,
-        toggleRepeatModeUseCase: ToggleRepeatModeUseCase
+        toggleRepeatModeUseCase: ToggleRepeatModeUseCase,
+        toggleShuffleModeUseCase: ToggleShuffleModeUseCase
     ) {
         self.resumePlaybackUseCase = resumePlaybackUseCase
         self.pausePlaybackUseCase = pausePlaybackUseCase
@@ -75,6 +80,7 @@ struct Player {
         self.observeVolumeUseCase = observeVolumeUseCase
         self.playPreviousSongUseCase = playPreviousSongUseCase
         self.toggleRepeatModeUseCase = toggleRepeatModeUseCase
+        self.toggleShuffleModeUseCase = toggleShuffleModeUseCase
     }
     
     var body: some ReducerOf<Self> {
@@ -152,6 +158,11 @@ struct Player {
                 state.isRepeatOn.toggle()
                 toggleRepeatModeUseCase.execute(isOn: state.isRepeatOn)
                 return .none
+                
+            case .shuffleButtonTapped:
+                state.isShuffleOn.toggle()
+                toggleShuffleModeUseCase.execute(isOn: state.isShuffleOn)
+                return .none
             }
         }
     }
@@ -225,10 +236,10 @@ struct PlayerView: View {
                 }
                 
                 Button(action: {
-                    print("랜덤재생")
+                    store.send(.shuffleButtonTapped)
                 }) {
                     Image(systemName: "shuffle")
-                        .foregroundColor(.blue.opacity(0.3))
+                        .foregroundColor(store.isShuffleOn ? .blue : .blue.opacity(0.3))
                 }
             }
             .font(.title2)

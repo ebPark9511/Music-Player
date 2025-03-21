@@ -55,11 +55,11 @@ final class MediaServiceImpl: MediaService {
     }
     
     func setRepeat(isOn: Bool) {
-        if isOn {
-            player.repeatMode = .one
-        } else {
-            player.repeatMode = .none
-        }
+        player.repeatMode = isOn ? .one : .none
+    }
+    
+    func setShuffle(isOn: Bool) {
+        player.shuffleMode = isOn ? .songs : .off
     }
     
     func setVolume(_ volume: Float) {
