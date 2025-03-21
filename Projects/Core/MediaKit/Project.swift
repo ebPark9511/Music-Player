@@ -8,7 +8,7 @@ let project = Project.module(
         .interface(module: .core(.MediaKit)),
         .implements(module: .core(.MediaKit), dependencies: [
             .core(target: .MediaKit, type: .interface),
-            .domain(target: .BaseDomain)
+            .shared(target: .GlobalThirdPartyLibrary)
         ])
     ]
 )
