@@ -28,7 +28,7 @@ $make generate
 - [x] 플레이어 > 다음곡 재생
 - [x] 플레이어 > 한곡 반복
 - [x] 플레이어 > 다음곡부터 셔플 재생
-
+- [버그](https://github.com/ebPark9511/Music-Player/issues)
 
 <br><br>
 
