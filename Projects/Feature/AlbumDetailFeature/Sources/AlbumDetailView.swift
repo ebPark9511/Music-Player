@@ -23,8 +23,8 @@ struct AlbumDetail {
             self.songs = IdentifiedArrayOf(
                 uniqueElements: album.songs.enumerated().map { index, song in
                     SongItem.State(
-                        id: song.id,
-                        trackNumber: String(index+1),
+                        id: String(index+1),
+                        trackNumber: song.trackNumber,
                         title: song.title ?? "-",
                         song: song
                     )
@@ -36,7 +36,7 @@ struct AlbumDetail {
     enum Action {
         case playButtonTapped
         case shuffleButtonTapped
-        case songItem(id: SongItem.State.ID, action: SongItem.Action)
+        case songItem(trackNumber: Int, action: SongItem.Action)
     }
     
     private let playMusicUseCase: PlayMediaUseCase
@@ -64,8 +64,8 @@ struct AlbumDetail {
                 self.playShuffleMediaUseCase.execute(items: state.album.songs.map { $0 })
                 return .none
                 
-            case let .songItem(id, action: .tapped):
-                guard let selectedIndex = state.songs.firstIndex(where: { $0.id == id }) else { return .none }
+            case let .songItem(trackNumber, action: .tapped):
+                guard let selectedIndex = state.songs.firstIndex(where: { $0.trackNumber == trackNumber }) else { return .none }
                 let songsFromSelected = Array(state.album.songs[selectedIndex...])
                 self.playMusicUseCase.execute(items: songsFromSelected)
                 return .none
@@ -134,7 +134,7 @@ struct AlbumDetailView: View {
                         SongItemView(
                             store: store.scope(
                                 state: { $0.songs[id: song.id]! },
-                                action: { .songItem(id: song.id, action: $0) }
+                                action: { .songItem(trackNumber: song.trackNumber, action: $0) }
                             )
                         )
                         Divider().background(Color(uiColor: .systemGray5))

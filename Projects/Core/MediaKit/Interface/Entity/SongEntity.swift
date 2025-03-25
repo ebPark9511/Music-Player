@@ -14,4 +14,5 @@ public protocol SongEntity {
     var artist: String? { get }
     var artworkImage: UIImage? { get }
     var duration: TimeInterval { get }
+    var trackNumber: Int { get }
 }

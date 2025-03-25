@@ -62,10 +62,6 @@ final class MediaServiceImpl: MediaService {
         player.shuffleMode = isOn ? .songs : .off
     }
     
-    func setVolume(_ volume: Float) {
-        MPVolumeView.setVolume(volume)
-    }
-    
     func restartCurrentSong() {
         player.skipToBeginning()
         player.play()
@@ -93,15 +89,4 @@ final class MediaServiceImpl: MediaService {
             .eraseToAnyPublisher()
     }
     
-}
-
-private extension MPVolumeView {
-    static func setVolume(_ volume: Float) {
-        let volumeView = MPVolumeView()
-        let slider = volumeView.subviews.first(where: { $0 is UISlider }) as? UISlider
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            slider?.value = volume
-        }
-    }
 }

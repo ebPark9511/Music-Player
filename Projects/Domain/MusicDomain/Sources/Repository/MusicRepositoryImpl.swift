@@ -65,7 +65,8 @@ private extension SongEntity {
             title: title,
             artist: artist,
             artworkImage: artworkImage,
-            duration: duration
+            duration: duration,
+            trackNumber: trackNumber
         )
     }
 }

@@ -15,5 +15,6 @@ extension MPMediaItem: @retroactive SongEntity {
     public var id: String { playbackStoreID }
     public var artworkImage: UIImage? { artwork == nil ? nil : artwork?.image(at: .init(width: 200, height: 200)) }
     public var duration: TimeInterval { playbackDuration }
+    public var trackNumber: Int { self.albumTrackNumber } 
 }
 

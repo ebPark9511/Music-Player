@@ -14,13 +14,15 @@ public struct Song: Equatable, Identifiable, Hashable, Sendable {
     public let artist: String?
     public let artworkImage: UIImage?
     public let duration: TimeInterval
+    public let trackNumber: Int
     
-    public init(id: String, title: String? = nil, artist: String? = nil, artworkImage: UIImage? = nil, duration: TimeInterval) {
+    public init(id: String, title: String? = nil, artist: String? = nil, artworkImage: UIImage? = nil, duration: TimeInterval, trackNumber: Int) {
         self.id = id
         self.title = title
         self.artist = artist
         self.artworkImage = artworkImage
         self.duration = duration
+        self.trackNumber = trackNumber
     }
    
 }

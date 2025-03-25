@@ -100,7 +100,8 @@ struct Player {
                                 title: songEntity.title,
                                 artist: songEntity.artist,
                                 artworkImage: songEntity.artworkImage,
-                                duration: songEntity.duration
+                                duration: songEntity.duration,
+                                trackNumber: songEntity.trackNumber
                             ))
                         }
                     

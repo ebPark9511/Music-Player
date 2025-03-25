@@ -15,7 +15,7 @@ struct SongItem {
     @ObservableState
     struct State: Equatable, Identifiable {
         let id: String
-        let trackNumber: String
+        let trackNumber: Int
         let title: String
         let song: Song
     }
@@ -40,7 +40,7 @@ struct SongItemView: View {
     var body: some View {
         Button(action: { store.send(.tapped) }) {
             HStack(spacing: 12) {
-                Text(store.trackNumber)
+                Text(String(store.trackNumber))
                     .frame(width: 25)
                     .foregroundColor(.secondary)
                     .font(.system(size: 17))

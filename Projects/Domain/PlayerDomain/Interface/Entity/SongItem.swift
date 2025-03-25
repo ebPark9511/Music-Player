@@ -11,18 +11,22 @@ import MediaKitInterface
 
 public struct SongItem: Playable, SongEntity {
     
+    
     public let id: String
     public let title: String?
     public let artist: String?
     public let artworkImage: UIImage?
     public let duration: TimeInterval
+    public var trackNumber: Int
     
-    public init(id: String, title: String?, artist: String? = nil, artworkImage: UIImage? = nil, duration: TimeInterval) {
+    
+    public init(id: String, title: String?, artist: String? = nil, artworkImage: UIImage? = nil, duration: TimeInterval, trackNumber: Int) {
         self.id = id
         self.title = title
         self.artist = artist
         self.artworkImage = artworkImage
         self.duration = duration
+        self.trackNumber = trackNumber
     }
     
     public init(
@@ -33,6 +37,7 @@ public struct SongItem: Playable, SongEntity {
         self.artist = entity.artist
         self.artworkImage = entity.artworkImage
         self.duration = entity.duration
+        self.trackNumber = entity.trackNumber
     }
     
     public init(
@@ -43,5 +48,6 @@ public struct SongItem: Playable, SongEntity {
         self.artist = entity.artist
         self.artworkImage = entity.artworkImage
         self.duration = entity.duration
+        self.trackNumber = entity.trackNumber
     }
 }
